@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MaestroRegression Report — 5/5/2026, 9:05:24 PM</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#185FA5;--green:#1D9E75;--red:#E24B4A;--amber:#F5A623;--purple:#7C5CBF;--grey:#8494ad;
+  --bg:#f4f6f9;--card:#fff;--bdr:#e0e4ea;--text:#1a2233;--muted:#6b7a99;--r:8px
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px}
+
+/* ── Header ── */
+.hdr{background:var(--blue);color:#fff;padding:16px 28px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.hdr h1{font-size:1.2rem;font-weight:700}
+.hdr .sub{font-size:.75rem;opacity:.8;margin-top:2px}
+.print-btn{background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.4);padding:6px 16px;border-radius:99px;cursor:pointer;font-size:.8rem;font-weight:600}
+.print-btn:hover{background:rgba(255,255,255,.35)}
+
+/* ── Summary cards ── */
+.summary{background:var(--card);border-bottom:1px solid var(--bdr);padding:16px 28px;display:flex;gap:20px;flex-wrap:wrap;align-items:center}
+.stat{min-width:80px}
+.stat .n{font-size:1.9rem;font-weight:800;line-height:1}
+.stat .l{font-size:.65rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-top:2px}
+.stat.s-total .n{color:var(--text)}
+.stat.s-pass .n{color:var(--green)}
+.stat.s-fail .n{color:var(--red)}
+.stat.s-notrun .n{color:var(--amber)}
+.stat.s-gap .n{color:var(--grey)}
+.stat.s-rate .n{color:var(--blue)}
+.progress-wrap{flex:1;min-width:160px}
+.prog-labels{display:flex;justify-content:space-between;font-size:.65rem;color:var(--muted);margin-bottom:4px}
+.progress{height:10px;background:#e8ecf1;border-radius:99px;overflow:hidden;display:flex}
+.prog-pass{background:var(--green)}.prog-fail{background:var(--red)}
+.prog-notrun{background:var(--amber)}.prog-gap{background:#d0d6e0}
+
+/* ── Filters ── */
+.filter-bar{background:var(--card);border-bottom:1px solid var(--bdr);padding:10px 28px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.filter-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-right:4px}
+.fb{background:var(--bg);border:1px solid var(--bdr);color:var(--muted);padding:4px 14px;border-radius:99px;cursor:pointer;font-size:.75rem;font-weight:600;transition:all .15s}
+.fb:hover{border-color:var(--blue);color:var(--blue)}
+.fb.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.fb.f-pass.active{background:var(--green);border-color:var(--green)}
+.fb.f-fail.active{background:var(--red);border-color:var(--red)}
+.fb.f-notrun.active{background:var(--amber);border-color:var(--amber)}
+.sep{width:1px;height:20px;background:var(--bdr);margin:0 4px}
+
+/* ── Tabs ── */
+.tabs{display:flex;gap:0;border-bottom:2px solid var(--bdr);padding:0 28px;background:var(--card)}
+.tab{padding:10px 20px;cursor:pointer;font-size:.82rem;font-weight:600;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .15s}
+.tab:hover{color:var(--blue)}
+.tab.active{color:var(--blue);border-bottom-color:var(--blue)}
+.tab-panel{display:none;padding:20px 28px 40px}
+.tab-panel.active{display:block}
+
+/* ── Search ── */
+.search-wrap{padding:14px 28px 0;display:flex;gap:10px;align-items:center}
+.search-box{flex:1;max-width:380px;padding:7px 14px;border:1px solid var(--bdr);border-radius:6px;font-size:.83rem;outline:none;transition:border .15s}
+.search-box:focus{border-color:var(--blue)}
+
+/* ── TC Table ── */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--bdr);border-radius:var(--r);margin-top:14px}
+table{width:100%;border-collapse:collapse;font-size:.8rem}
+thead tr{background:#f0f3f7}
+th{padding:8px 12px;text-align:left;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);border-bottom:1px solid var(--bdr);white-space:nowrap}
+td{padding:8px 12px;border-bottom:1px solid #f0f0f0;vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#fafbfc}
+
+.tcid-col{font-family:'Menlo','Courier New',monospace;font-weight:700;color:var(--blue);white-space:nowrap}
+.module-col{white-space:nowrap;color:var(--muted);font-size:.75rem}
+.scenario-col{max-width:340px}
+.yaml-col{font-size:.7rem;color:var(--muted);white-space:nowrap;max-width:240px;overflow:hidden;text-overflow:ellipsis}
+.dur-col{white-space:nowrap;font-family:monospace;font-size:.75rem}
+.mono{font-family:'Menlo','Courier New',monospace;font-size:.75rem}
+.fail-hint{font-size:.7rem;color:var(--red);margin-top:3px;font-style:italic;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:320px}
+
+/* ── YAML table ── */
+.yaml-col-w{max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* ── Badges ── */
+.badge{font-size:.62rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;padding:2px 9px;border-radius:99px;white-space:nowrap}
+.badge.passed{background:#e0f7ef;color:var(--green)}
+.badge.failed{background:#fde9e9;color:var(--red)}
+.badge.error{background:#fff3d6;color:var(--amber)}
+.badge.notrun{background:#fff8e6;color:var(--amber)}
+.badge.notcovered{background:#f0f0f4;color:var(--grey)}
+.badge.not-covered{background:#f0f0f4;color:var(--grey)}
+.badge.not-run{background:#fff8e6;color:var(--amber)}
+
+.prod-badge{font-size:.62rem;font-weight:700;padding:2px 8px;border-radius:99px;text-transform:uppercase;letter-spacing:.04em}
+.prod-app{background:#ddeeff;color:#185FA5}
+.prod-miko3{background:#e8f5e9;color:#2e7d32}
+.prod-mini{background:#f3e5f5;color:#6a1b9a}
+
+.pri{font-size:.65rem;font-weight:700;padding:2px 7px;border-radius:4px}
+.pri-high{background:#fde9e9;color:var(--red)}
+.pri-med{background:#fff8e6;color:#a06000}
+.pri-low{background:#f0f4f8;color:var(--muted)}
+
+/* ── Run info bar ── */
+.run-bar{background:#f8f9fb;border-bottom:1px solid var(--bdr);padding:7px 28px;font-size:.72rem;color:var(--muted)}
+.run-bar b{color:var(--text)}
+
+/* ── Empty state ── */
+.empty{text-align:center;padding:40px;color:var(--muted);font-style:italic}
+
+footer{text-align:center;padding:12px 28px;color:var(--muted);font-size:.7rem;border-top:1px solid var(--bdr);background:#f8f9fb}
+@media print{.filter-bar,.tabs,.search-wrap,.print-btn{display:none!important}.tab-panel{display:block!important}}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div>
+    <h1>MaestroRegression — TC Coverage Report</h1>
+    <div class="sub">5/5/2026, 9:05:24 PM &nbsp;·&nbsp; All Products</div>
+  </div>
+  <button class="print-btn" onclick="window.print()">Print / Save PDF</button>
+</header>
+
+<div class="summary">
+  <div class="stat s-total"><div class="n">75</div><div class="l">Total TCs</div></div>
+  <div class="stat s-pass"> <div class="n">36</div><div class="l">Passed</div></div>
+  <div class="stat s-fail"> <div class="n">16</div><div class="l">Failed</div></div>
+  <div class="stat s-notrun"><div class="n">0</div><div class="l">Not Run</div></div>
+  <div class="stat s-gap">  <div class="n">23</div><div class="l">Not Covered</div></div>
+  <div class="stat s-rate"> <div class="n">69%</div><div class="l">Pass Rate</div></div>
+  <div class="progress-wrap">
+    <div class="prog-labels">
+      <span>0</span>
+      <span>52 executed of 75 total</span>
+    </div>
+    <div class="progress">
+      <div class="prog-pass"  style="width:48.0%"></div>
+      <div class="prog-fail"  style="width:21.3%"></div>
+      <div class="prog-notrun" style="width:0.0%"></div>
+      <div class="prog-gap"   style="width:30.7%"></div>
+    </div>
+    <div class="prog-labels" style="margin-top:4px">
+      <span style="color:var(--green)">■ Passed</span>
+      <span style="color:var(--red)">■ Failed</span>
+      <span style="color:var(--amber)">■ Not Run</span>
+      <span style="color:#d0d6e0">■ Not Covered</span>
+    </div>
+  </div>
+  <div class="stat"><div class="n" style="font-size:1rem;color:var(--muted)">351.0s</div><div class="l">Run Duration</div></div>
+</div>
+
+<div class="run-bar">
+  Results from: <b>results_preprod_sanity_2026-05-05.json</b> &nbsp;·&nbsp;
+  Run date: <b>5/5/2026, 9:05:24 PM</b> &nbsp;·&nbsp;
+  Coverage source: <b>MaestroRegression_TestCoverage.csv</b>
+</div>
+
+<div class="filter-bar">
+  <span class="filter-label">Product:</span>
+  <button class="fb active" onclick="filterProd('all',this)">All</button>
+  <button class="fb" onclick="filterProd('app',this)">App</button>
+  <button class="fb" onclick="filterProd('miko3',this)">Miko3</button>
+  <button class="fb" onclick="filterProd('mini',this)">Mini</button>
+  <div class="sep"></div>
+  <span class="filter-label">Status:</span>
+  <button class="fb active" onclick="filterStatus('all',this)">All</button>
+  <button class="fb f-pass"  onclick="filterStatus('passed',this)">✔ Passed</button>
+  <button class="fb f-fail"  onclick="filterStatus('failed',this)">✗ Failed</button>
+  <button class="fb f-notrun" onclick="filterStatus('not-run',this)">Not Run</button>
+  <button class="fb" onclick="filterStatus('not-covered',this)">Not Covered</button>
+</div>
+
+<div class="search-wrap">
+  <input class="search-box" id="searchBox" type="text" placeholder="Search TC ID, module, scenario, YAML file…" oninput="applySearch()">
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="showTab('tc-tab',this)">Test Cases (75)</div>
+  <div class="tab" onclick="showTab('yaml-tab',this)">YAML Files (36)</div>
+</div>
+
+<div class="tab-panel active" id="tc-tab">
+  <div class="tbl-wrap">
+    <table id="tcTable">
+      <thead>
+        <tr>
+          <th>TC ID</th>
+          <th>Product</th>
+          <th>Module</th>
+          <th>Test Scenario</th>
+          <th>Priority</th>
+          <th>YAML File</th>
+          <th>Status</th>
+          <th>Duration</th>
+        </tr>
+      </thead>
+      <tbody id="tcBody">
+<tr class="tc-row" data-product="app" data-status="passed">
+      <td class="tcid-col mono">TC002</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Intermediate Screen</td>
+      <td class="scenario-col">Intermediate screen shows all parent-zone cards</td>
+      <td><span class="pri pri-high">High</span></td>
+      <td class="mono yaml-col">02_IntermediateScreen.yaml</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="dur-col muted">4s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="passed">
+      <td class="tcid-col mono">TC003</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Intermediate Screen</td>
+      <td class="scenario-col">Child switcher shows child name</td>
+      <td><span class="pri pri-med">Medium</span></td>
+      <td class="mono yaml-col">02_IntermediateScreen.yaml</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="dur-col muted">4s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="passed">
+      <td class="tcid-col mono">TC004</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Parents Zone Entry</td>
+      <td class="scenario-col">Passcode screen appears on tapping Parents Zone</td>
+      <td><span class="pri pri-high">High</span></td>
+      <td class="mono yaml-col">03_ParentsZoneEntry.yaml</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="dur-col muted">26s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="passed">
+      <td class="tcid-col mono">TC005</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Parents Zone Entry</td>
+      <td class="scenario-col">Correct passcode (1111) grants access</td>
+      <td><span class="pri pri-high">High</span></td>
+      <td class="mono yaml-col">03_ParentsZoneEntry.yaml</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="dur-col muted">26s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="passed">
+      <td class="tcid-col mono">TC006</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Parents Zone Entry</td>
+      <td class="scenario-col">Forgot Passcode link is visible</td>
+      <td><span class="pri pri-med">Medium</span></td>
+      <td class="mono yaml-col">03_ParentsZoneEntry.yaml</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="dur-col muted">26s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="passed">
+      <td class="tcid-col mono">TC007</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Parents Zone - Home Tab</td>
+      <td class="scenario-col">Home tab loads with banner and content</td>
+      <td><span class="pri pri-high">High</span></td>
+      <td class="mono yaml-col">04_HomeTab.yaml</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="dur-col muted">9s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="not-covered">
+      <td class="tcid-col mono">TC008</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Parents Zone - Home Tab</td>
+      <td class="scenario-col">Know Your Miko checklist is visible with voice commands</td>
+      <td><span class="pri pri-med">Medium</span></td>
+      <td class="mono yaml-col">—</td>
+      <td><span class="badge notcovered">NOT COVERED</span></td>
+      <td class="dur-col muted">—</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="passed">
+      <td class="tcid-col mono">TC009</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Parents Zone - Home Tab</td>
+      <td class="scenario-col">Top menu icons are visible</td>
+      <td><span class="pri pri-high">High</span></td>
+      <td class="mono yaml-col">04_HomeTab.yaml</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="dur-col muted">9s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="not-covered">
+      <td class="tcid-col mono">TC010</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Parents Zone - Max Tab</td>
+      <td class="scenario-col">Max tab loads and shows ACTIVE status</td>
+      <td><span class="pri pri-high">High</span></td>
+      <td class="mono yaml-col">—</td>
+      <td><span class="badge notcovered">NOT COVERED</span></td>
+      <td class="dur-col muted">—</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="not-covered">
+      <td class="tcid-col mono">TC011</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Parents Zone - Max Tab</td>
+      <td class="scenario-col">Global learning stats are visible on Max tab</td>
+      <td><span class="pri pri-med">Medium</span></td>
+      <td class="mono yaml-col">—</td>
+      <td><span class="badge notcovered">NOT COVERED</span></td>
+      <td class="dur-col muted">—</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="passed">
+      <td class="tcid-col mono">TC012</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Parents Zone - Reports Tab</td>
+      <td class="scenario-col">Reports tab opens with Overview sub-tab selected</td>
+      <td><span class="pri pri-high">High</span></td>
+      <td class="mono yaml-col">05_Reports.yaml</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="dur-col muted">14s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="passed">
+      <td class="tcid-col mono">TC013</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Parents Zone - Reports Tab</td>
+      <td class="scenario-col">Overview tab shows skill categories</td>
+      <td><span class="pri pri-med">Medium</span></td>
+      <td class="mono yaml-col">05_Reports.yaml</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="dur-col muted">14s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="failed">
+      <td class="tcid-col mono">TC014</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Parents Zone - Reports Tab</td>
+      <td class="scenario-col">Learning sub-tab is navigable<div class="fail-hint" title="launchApp com.miko3.app: Unable to launch app com.miko3.app — pre-prod launchApp incompatibility (mother_day_max activity). To be investigated.">⚠ launchApp com.miko3.app: Unable to launch app com.miko3.app — pre-prod…</div></td>
+      <td><span class="pri pri-med">Medium</span></td>
+      <td class="mono yaml-col">06_Reports_ChildSwitch.yaml</td>
+      <td><span class="badge failed">FAILED</span></td>
+      <td class="dur-col muted">21s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="failed">
+      <td class="tcid-col mono">TC015</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Parents Zone - Reports Tab</td>
+      <td class="scenario-col">Child filter button is tappable<div class="fail-hint" title="launchApp com.miko3.app: Unable to launch app com.miko3.app — pre-prod launchApp incompatibility (mother_day_max activity). To be investigated.">⚠ launchApp com.miko3.app: Unable to launch app com.miko3.app — pre-prod…</div></td>
+      <td><span class="pri pri-med">Medium</span></td>
+      <td class="mono yaml-col">06_Reports_ChildSwitch.yaml</td>
+      <td><span class="badge failed">FAILED</span></td>
+      <td class="dur-col muted">21s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="failed">
+      <td class="tcid-col mono">TC016</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Parents Zone - Shield Tab</td>
+      <td class="scenario-col">Shield tab loads with all 8 parental control tiles<div class="fail-hint" title="assertVisible id_shield_bedtime_schedule: Assertion is false: id: id_shield_bedtime_schedule is visible — element not found after scroll. Possible pre-prod UI change.">⚠ assertVisible id_shield_bedtime_schedule: Assertion is false: id: id_s…</div></td>
+      <td><span class="pri pri-high">High</span></td>
+      <td class="mono yaml-col">06_Shield.yaml</td>
+      <td><span class="badge failed">FAILED</span></td>
+      <td class="dur-col muted">25s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="failed">
+      <td class="tcid-col mono">TC017</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Parents Zone - Shield Tab</td>
+      <td class="scenario-col">Shield tab header text is correct<div class="fail-hint" title="assertVisible id_shield_bedtime_schedule: Assertion is false: id: id_shield_bedtime_schedule is visible — element not found after scroll. Possible pre-prod UI change.">⚠ assertVisible id_shield_bedtime_schedule: Assertion is false: id: id_s…</div></td>
+      <td><span class="pri pri-low">Low</span></td>
+      <td class="mono yaml-col">06_Shield.yaml</td>
+      <td><span class="badge failed">FAILED</span></td>
+      <td class="dur-col muted">25s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="passed">
+      <td class="tcid-col mono">TC018</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Parents Zone - Shield Tab</td>
+      <td class="scenario-col">AI Conversations tile is accessible</td>
+      <td><span class="pri pri-med">Medium</span></td>
+      <td class="mono yaml-col">07_AIConversations.yaml</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="dur-col muted">19s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="passed">
+      <td class="tcid-col mono">TC019</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Parents Zone - Shield Tab</td>
+      <td class="scenario-col">Lock Kids Zone tile is accessible</td>
+      <td><span class="pri pri-high">High</span></td>
+      <td class="mono yaml-col">08_LockKidsZone.yaml</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="dur-col muted">23s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="not-covered">
+      <td class="tcid-col mono">TC020</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Parents Zone - Shield Tab</td>
+      <td class="scenario-col">Block Topics tile is accessible</td>
+      <td><span class="pri pri-med">Medium</span></td>
+      <td class="mono yaml-col">—</td>
+      <td><span class="badge notcovered">NOT COVERED</span></td>
+      <td class="dur-col muted">—</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="not-covered">
+      <td class="tcid-col mono">TC021</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Parents Zone - Shield Tab</td>
+      <td class="scenario-col">Block Words/Phrases tile is accessible</td>
+      <td><span class="pri pri-med">Medium</span></td>
+      <td class="mono yaml-col">—</td>
+      <td><span class="badge notcovered">NOT COVERED</span></td>
+      <td class="dur-col muted">—</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="passed">
+      <td class="tcid-col mono">TC022</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Parents Zone - Shield Tab</td>
+      <td class="scenario-col">Manage Screen Time tile is accessible</td>
+      <td><span class="pri pri-high">High</span></td>
+      <td class="mono yaml-col">09_ScreenTime.yaml</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="dur-col muted">18s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="passed">
+      <td class="tcid-col mono">TC023</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Parents Zone - Shield Tab</td>
+      <td class="scenario-col">App Access tile is accessible</td>
+      <td><span class="pri pri-high">High</span></td>
+      <td class="mono yaml-col">14_AppAccess.yaml</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="dur-col muted">25s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="passed">
+      <td class="tcid-col mono">TC024</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Parents Zone - Shield Tab</td>
+      <td class="scenario-col">Bedtime Schedule tile is accessible</td>
+      <td><span class="pri pri-med">Medium</span></td>
+      <td class="mono yaml-col">10_BedtimeSchedule.yaml</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="dur-col muted">20s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="passed">
+      <td class="tcid-col mono">TC025</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Parents Zone - Shield Tab</td>
+      <td class="scenario-col">Daily Rewards tile is accessible</td>
+      <td><span class="pri pri-high">High</span></td>
+      <td class="mono yaml-col">11_DailyRewards.yaml</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="dur-col muted">19s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="not-covered">
+      <td class="tcid-col mono">TC026</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Parents Zone - Shield Tab</td>
+      <td class="scenario-col">Child selector on Shield tab works</td>
+      <td><span class="pri pri-med">Medium</span></td>
+      <td class="mono yaml-col">—</td>
+      <td><span class="badge notcovered">NOT COVERED</span></td>
+      <td class="dur-col muted">—</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="not-covered">
+      <td class="tcid-col mono">TC027</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Parents Zone - Blog Tab</td>
+      <td class="scenario-col">Blog tab loads with Popular reads section</td>
+      <td><span class="pri pri-med">Medium</span></td>
+      <td class="mono yaml-col">—</td>
+      <td><span class="badge notcovered">NOT COVERED</span></td>
+      <td class="dur-col muted">—</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="not-covered">
+      <td class="tcid-col mono">TC028</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Parents Zone - Blog Tab</td>
+      <td class="scenario-col">Blog category tabs are visible</td>
+      <td><span class="pri pri-low">Low</span></td>
+      <td class="mono yaml-col">—</td>
+      <td><span class="badge notcovered">NOT COVERED</span></td>
+      <td class="dur-col muted">—</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="not-covered">
+      <td class="tcid-col mono">TC029</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Parents Zone - Blog Tab</td>
+      <td class="scenario-col">Blog For Kids tab navigates correctly</td>
+      <td><span class="pri pri-low">Low</span></td>
+      <td class="mono yaml-col">—</td>
+      <td><span class="badge notcovered">NOT COVERED</span></td>
+      <td class="dur-col muted">—</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="not-covered">
+      <td class="tcid-col mono">TC030</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Parents Zone - Blog Tab</td>
+      <td class="scenario-col">Blog For Parents tab navigates correctly</td>
+      <td><span class="pri pri-low">Low</span></td>
+      <td class="mono yaml-col">—</td>
+      <td><span class="badge notcovered">NOT COVERED</span></td>
+      <td class="dur-col muted">—</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="passed">
+      <td class="tcid-col mono">TC031</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Settings</td>
+      <td class="scenario-col">Settings screen opens from top menu icon</td>
+      <td><span class="pri pri-high">High</span></td>
+      <td class="mono yaml-col">12_Settings.yaml</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="dur-col muted">23s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="passed">
+      <td class="tcid-col mono">TC032</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Settings</td>
+      <td class="scenario-col">Parent profile shows name and email</td>
+      <td><span class="pri pri-med">Medium</span></td>
+      <td class="mono yaml-col">12_Settings.yaml</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="dur-col muted">23s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="passed">
+      <td class="tcid-col mono">TC033</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Settings</td>
+      <td class="scenario-col">Miko MAX Subscription card is visible with expiry date</td>
+      <td><span class="pri pri-high">High</span></td>
+      <td class="mono yaml-col">12_Settings.yaml</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="dur-col muted">23s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="passed">
+      <td class="tcid-col mono">TC034</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Settings</td>
+      <td class="scenario-col">Devices section heading is visible</td>
+      <td><span class="pri pri-med">Medium</span></td>
+      <td class="mono yaml-col">12_Settings.yaml</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="dur-col muted">23s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="passed">
+      <td class="tcid-col mono">TC035</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Settings</td>
+      <td class="scenario-col">Both Miko3 and Mini devices appear in Devices list</td>
+      <td><span class="pri pri-high">High</span></td>
+      <td class="mono yaml-col">12_Settings.yaml</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="dur-col muted">23s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="passed">
+      <td class="tcid-col mono">TC036</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Settings</td>
+      <td class="scenario-col">Link New Miko option is present</td>
+      <td><span class="pri pri-low">Low</span></td>
+      <td class="mono yaml-col">12_Settings.yaml</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="dur-col muted">23s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="passed">
+      <td class="tcid-col mono">TC037</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Settings</td>
+      <td class="scenario-col">Other Settings section - Change Parental Passcode</td>
+      <td><span class="pri pri-high">High</span></td>
+      <td class="mono yaml-col">12_Settings.yaml</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="dur-col muted">23s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="passed">
+      <td class="tcid-col mono">TC038</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Settings</td>
+      <td class="scenario-col">Other Settings section - Manage Language</td>
+      <td><span class="pri pri-med">Medium</span></td>
+      <td class="mono yaml-col">12_Settings.yaml</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="dur-col muted">23s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="passed">
+      <td class="tcid-col mono">TC039</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Settings</td>
+      <td class="scenario-col">Other Settings section - Privacy Policy loads</td>
+      <td><span class="pri pri-low">Low</span></td>
+      <td class="mono yaml-col">12_Settings.yaml</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="dur-col muted">23s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="passed">
+      <td class="tcid-col mono">TC040</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Settings</td>
+      <td class="scenario-col">Other Settings section - Terms &amp; Conditions loads</td>
+      <td><span class="pri pri-low">Low</span></td>
+      <td class="mono yaml-col">12_Settings.yaml</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="dur-col muted">23s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="passed">
+      <td class="tcid-col mono">TC041</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Settings</td>
+      <td class="scenario-col">Logout option is present</td>
+      <td><span class="pri pri-med">Medium</span></td>
+      <td class="mono yaml-col">12_Settings.yaml</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="dur-col muted">23s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="passed">
+      <td class="tcid-col mono">TC042</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Settings</td>
+      <td class="scenario-col">App version info is visible at bottom of Settings</td>
+      <td><span class="pri pri-low">Low</span></td>
+      <td class="mono yaml-col">12_Settings.yaml</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="dur-col muted">23s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="not-covered">
+      <td class="tcid-col mono">TC043</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Settings - More</td>
+      <td class="scenario-col">More sheet opens from device settings row</td>
+      <td><span class="pri pri-med">Medium</span></td>
+      <td class="mono yaml-col">—</td>
+      <td><span class="badge notcovered">NOT COVERED</span></td>
+      <td class="dur-col muted">—</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="not-covered">
+      <td class="tcid-col mono">TC044</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Settings - More</td>
+      <td class="scenario-col">Switch Child Profile option is accessible</td>
+      <td><span class="pri pri-med">Medium</span></td>
+      <td class="mono yaml-col">—</td>
+      <td><span class="badge notcovered">NOT COVERED</span></td>
+      <td class="dur-col muted">—</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="not-covered">
+      <td class="tcid-col mono">TC045</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Video Call (Mikonnect)</td>
+      <td class="scenario-col">Video Call entry from Parents Zone top menu</td>
+      <td><span class="pri pri-high">High</span></td>
+      <td class="mono yaml-col">—</td>
+      <td><span class="badge notcovered">NOT COVERED</span></td>
+      <td class="dur-col muted">—</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="not-covered">
+      <td class="tcid-col mono">TC047</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Miko Shield Card</td>
+      <td class="scenario-col">Miko Shield card on intermediate screen is tappable</td>
+      <td><span class="pri pri-med">Medium</span></td>
+      <td class="mono yaml-col">—</td>
+      <td><span class="badge notcovered">NOT COVERED</span></td>
+      <td class="dur-col muted">—</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="not-covered">
+      <td class="tcid-col mono">TC048</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Report Banner</td>
+      <td class="scenario-col">Learning report banner on intermediate screen is tappable</td>
+      <td><span class="pri pri-med">Medium</span></td>
+      <td class="mono yaml-col">—</td>
+      <td><span class="badge notcovered">NOT COVERED</span></td>
+      <td class="dur-col muted">—</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="passed">
+      <td class="tcid-col mono">TC049</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Bottom Navigation</td>
+      <td class="scenario-col">All 5 bottom nav tabs are visible in Parents Zone</td>
+      <td><span class="pri pri-high">High</span></td>
+      <td class="mono yaml-col">04_HomeTab.yaml</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="dur-col muted">9s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="passed">
+      <td class="tcid-col mono">TC050</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Navigation</td>
+      <td class="scenario-col">Home icon in top bar returns to intermediate screen</td>
+      <td><span class="pri pri-high">High</span></td>
+      <td class="mono yaml-col">14_AppAccess.yaml</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="dur-col muted">25s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="not-covered">
+      <td class="tcid-col mono">TC051</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Settings - Device</td>
+      <td class="scenario-col">Set Location opens location search screen</td>
+      <td><span class="pri pri-med">Medium</span></td>
+      <td class="mono yaml-col">—</td>
+      <td><span class="badge notcovered">NOT COVERED</span></td>
+      <td class="dur-col muted">—</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="not-covered">
+      <td class="tcid-col mono">TC052</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Settings - Device</td>
+      <td class="scenario-col">Set Alarm opens alarm configuration</td>
+      <td><span class="pri pri-med">Medium</span></td>
+      <td class="mono yaml-col">—</td>
+      <td><span class="badge notcovered">NOT COVERED</span></td>
+      <td class="dur-col muted">—</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="not-covered">
+      <td class="tcid-col mono">TC053</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Settings - Device</td>
+      <td class="scenario-col">Tune Miko Listening Power screen opens</td>
+      <td><span class="pri pri-med">Medium</span></td>
+      <td class="mono yaml-col">—</td>
+      <td><span class="badge notcovered">NOT COVERED</span></td>
+      <td class="dur-col muted">—</td>
+    </tr>
+<tr class="tc-row" data-product="miko3parentalcontrol" data-status="not-covered">
+      <td class="tcid-col mono">TC057</td>
+      <td><span class="prod-badge prod-miko3parentalcontrol">Miko3ParentalControl</span></td>
+      <td class="module-col">Intermediate Screen</td>
+      <td class="scenario-col">Miko3 Let.s Play button navigates to Kids Zone</td>
+      <td><span class="pri pri-high">High</span></td>
+      <td class="mono yaml-col">—</td>
+      <td><span class="badge notcovered">NOT COVERED</span></td>
+      <td class="dur-col muted">—</td>
+    </tr>
+<tr class="tc-row" data-product="miko3parentalcontrol" data-status="not-covered">
+      <td class="tcid-col mono">TC060</td>
+      <td><span class="prod-badge prod-miko3parentalcontrol">Miko3ParentalControl</span></td>
+      <td class="module-col">Kids Zone</td>
+      <td class="scenario-col">Disney talent section opens from intermediate screen</td>
+      <td><span class="pri pri-high">High</span></td>
+      <td class="mono yaml-col">—</td>
+      <td><span class="badge notcovered">NOT COVERED</span></td>
+      <td class="dur-col muted">—</td>
+    </tr>
+<tr class="tc-row" data-product="miko3parentalcontrol" data-status="not-covered">
+      <td class="tcid-col mono">TC062</td>
+      <td><span class="prod-badge prod-miko3parentalcontrol">Miko3ParentalControl</span></td>
+      <td class="module-col">Kids Zone</td>
+      <td class="scenario-col">iHeart Max opens from intermediate screen</td>
+      <td><span class="pri pri-high">High</span></td>
+      <td class="mono yaml-col">—</td>
+      <td><span class="badge notcovered">NOT COVERED</span></td>
+      <td class="dur-col muted">—</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="passed">
+      <td class="tcid-col mono">TC067</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Settings - Subscription</td>
+      <td class="scenario-col">Miko MAX Subscription screen opens</td>
+      <td><span class="pri pri-high">High</span></td>
+      <td class="mono yaml-col">13_MikoMaxSubscription.yaml</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="dur-col muted">18s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="passed">
+      <td class="tcid-col mono">TC068</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Settings - Subscription</td>
+      <td class="scenario-col">Subscription expiry date is correct</td>
+      <td><span class="pri pri-high">High</span></td>
+      <td class="mono yaml-col">13_MikoMaxSubscription.yaml</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="dur-col muted">18s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="passed">
+      <td class="tcid-col mono">TC069</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Parents Zone - Shield Tab</td>
+      <td class="scenario-col">Daily Rewards toggle is present and interactable</td>
+      <td><span class="pri pri-high">High</span></td>
+      <td class="mono yaml-col">11_DailyRewards.yaml</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="dur-col muted">19s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="passed">
+      <td class="tcid-col mono">TC070</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Parents Zone - Shield Tab</td>
+      <td class="scenario-col">Screen Time - schedule options visible</td>
+      <td><span class="pri pri-high">High</span></td>
+      <td class="mono yaml-col">09_ScreenTime.yaml</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="dur-col muted">18s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="passed">
+      <td class="tcid-col mono">TC071</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Parents Zone - Shield Tab</td>
+      <td class="scenario-col">App Access - app list visible</td>
+      <td><span class="pri pri-high">High</span></td>
+      <td class="mono yaml-col">14_AppAccess.yaml</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="dur-col muted">25s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="not-covered">
+      <td class="tcid-col mono">TC072</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Parents Zone - Shield Tab</td>
+      <td class="scenario-col">Block Words - add word flow works</td>
+      <td><span class="pri pri-med">Medium</span></td>
+      <td class="mono yaml-col">—</td>
+      <td><span class="badge notcovered">NOT COVERED</span></td>
+      <td class="dur-col muted">—</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="passed">
+      <td class="tcid-col mono">TC073</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Settings - Device</td>
+      <td class="scenario-col">Device settings back navigation works</td>
+      <td><span class="pri pri-med">Medium</span></td>
+      <td class="mono yaml-col">12_Settings.yaml</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="dur-col muted">23s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="not-covered">
+      <td class="tcid-col mono">TC074</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Settings - Parental Control</td>
+      <td class="scenario-col">Child Profile section opens from device card</td>
+      <td><span class="pri pri-high">High</span></td>
+      <td class="mono yaml-col">—</td>
+      <td><span class="badge notcovered">NOT COVERED</span></td>
+      <td class="dur-col muted">—</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="passed">
+      <td class="tcid-col mono">TC075</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Parents Zone - Home Tab</td>
+      <td class="scenario-col">Parents Zone Home tab is default after passcode entry</td>
+      <td><span class="pri pri-high">High</span></td>
+      <td class="mono yaml-col">03_ParentsZoneEntry.yaml</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="dur-col muted">26s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="failed">
+      <td class="tcid-col mono">TC095</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Intermediate Screen - Kids Zone</td>
+      <td class="scenario-col">3 Kids Zone tiles (Learning Buddy / Story Maker / iHeart) visible for Hello; Let&#039;s Play button present<div class="fail-hint" title="launchApp com.miko3.app: Unable to launch app com.miko3.app — pre-prod launchApp incompatibility (mother_day_max activity). To be investigated.">⚠ launchApp com.miko3.app: Unable to launch app com.miko3.app — pre-prod…</div></td>
+      <td><span class="pri pri-high">High</span></td>
+      <td class="mono yaml-col">02b_IntermediateScreen_KidsZoneTiles.yaml</td>
+      <td><span class="badge failed">FAILED</span></td>
+      <td class="dur-col muted">23s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="failed">
+      <td class="tcid-col mono">TC096</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Intermediate Screen - Kids Zone</td>
+      <td class="scenario-col">Switch to Vijay via child switcher; 3 Kids Zone tiles visible for Vijay<div class="fail-hint" title="launchApp com.miko3.app: Unable to launch app com.miko3.app — pre-prod launchApp incompatibility (mother_day_max activity). To be investigated.">⚠ launchApp com.miko3.app: Unable to launch app com.miko3.app — pre-prod…</div></td>
+      <td><span class="pri pri-high">High</span></td>
+      <td class="mono yaml-col">02b_IntermediateScreen_KidsZoneTiles.yaml</td>
+      <td><span class="badge failed">FAILED</span></td>
+      <td class="dur-col muted">23s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="failed">
+      <td class="tcid-col mono">TC097</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Settings - More Sheet</td>
+      <td class="scenario-col">More bottom sheet opens from device card; Switch child Profile and Unlink Miko options visible<div class="fail-hint" title="launchApp com.miko3.app: Unable to launch app com.miko3.app — pre-prod launchApp incompatibility (mother_day_max activity). To be investigated.">⚠ launchApp com.miko3.app: Unable to launch app com.miko3.app — pre-prod…</div></td>
+      <td><span class="pri pri-high">High</span></td>
+      <td class="mono yaml-col">16_UnlinkMiko.yaml</td>
+      <td><span class="badge failed">FAILED</span></td>
+      <td class="dur-col muted">21s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="failed">
+      <td class="tcid-col mono">TC098</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Settings - More Sheet</td>
+      <td class="scenario-col">Unlink Miko confirmation dialog shows; tapping Keep my Miko dismisses safely<div class="fail-hint" title="launchApp com.miko3.app: Unable to launch app com.miko3.app — pre-prod launchApp incompatibility (mother_day_max activity). To be investigated.">⚠ launchApp com.miko3.app: Unable to launch app com.miko3.app — pre-prod…</div></td>
+      <td><span class="pri pri-high">High</span></td>
+      <td class="mono yaml-col">16_UnlinkMiko.yaml</td>
+      <td><span class="badge failed">FAILED</span></td>
+      <td class="dur-col muted">21s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="failed">
+      <td class="tcid-col mono">TC088</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Parents Zone - Reports Tab</td>
+      <td class="scenario-col">Learning tab shows empty state when child has no activity<div class="fail-hint" title="launchApp com.miko3.app: Unable to launch app com.miko3.app — pre-prod launchApp incompatibility (mother_day_max activity). To be investigated.">⚠ launchApp com.miko3.app: Unable to launch app com.miko3.app — pre-prod…</div></td>
+      <td><span class="pri pri-high">High</span></td>
+      <td class="mono yaml-col">07_Reports_LearningEmptyState.yaml</td>
+      <td><span class="badge failed">FAILED</span></td>
+      <td class="dur-col muted">22s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="failed">
+      <td class="tcid-col mono">TC087</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Parents Zone - Reports Tab</td>
+      <td class="scenario-col">Reports data updates when switching child profile Hello → Vijay<div class="fail-hint" title="launchApp com.miko3.app: Unable to launch app com.miko3.app — pre-prod launchApp incompatibility (mother_day_max activity). To be investigated.">⚠ launchApp com.miko3.app: Unable to launch app com.miko3.app — pre-prod…</div></td>
+      <td><span class="pri pri-high">High</span></td>
+      <td class="mono yaml-col">06_Reports_ChildSwitch.yaml</td>
+      <td><span class="badge failed">FAILED</span></td>
+      <td class="dur-col muted">21s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="failed">
+      <td class="tcid-col mono">TC089</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Parents Zone - Home Tab</td>
+      <td class="scenario-col">Need Help? section visible on Home tab; Ask now opens Get Help screen<div class="fail-hint" title="launchApp com.miko3.app: Unable to launch app com.miko3.app — pre-prod launchApp incompatibility (mother_day_max activity). To be investigated.">⚠ launchApp com.miko3.app: Unable to launch app com.miko3.app — pre-prod…</div></td>
+      <td><span class="pri pri-high">High</span></td>
+      <td class="mono yaml-col">15_GetHelp.yaml</td>
+      <td><span class="badge failed">FAILED</span></td>
+      <td class="dur-col muted">21s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="failed">
+      <td class="tcid-col mono">TC090</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Help Center</td>
+      <td class="scenario-col">Get Help screen shows search bar and all help category links<div class="fail-hint" title="launchApp com.miko3.app: Unable to launch app com.miko3.app — pre-prod launchApp incompatibility (mother_day_max activity). To be investigated.">⚠ launchApp com.miko3.app: Unable to launch app com.miko3.app — pre-prod…</div></td>
+      <td><span class="pri pri-med">Medium</span></td>
+      <td class="mono yaml-col">15_GetHelp.yaml</td>
+      <td><span class="badge failed">FAILED</span></td>
+      <td class="dur-col muted">21s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="failed">
+      <td class="tcid-col mono">TC091</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Help Center</td>
+      <td class="scenario-col">Max Subscription help category opens with two sub-links<div class="fail-hint" title="launchApp com.miko3.app: Unable to launch app com.miko3.app — pre-prod launchApp incompatibility (mother_day_max activity). To be investigated.">⚠ launchApp com.miko3.app: Unable to launch app com.miko3.app — pre-prod…</div></td>
+      <td><span class="pri pri-med">Medium</span></td>
+      <td class="mono yaml-col">15_GetHelp.yaml</td>
+      <td><span class="badge failed">FAILED</span></td>
+      <td class="dur-col muted">21s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="failed">
+      <td class="tcid-col mono">TC092</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Help Center</td>
+      <td class="scenario-col">About Miko Max screen shows FAQ accordion items<div class="fail-hint" title="launchApp com.miko3.app: Unable to launch app com.miko3.app — pre-prod launchApp incompatibility (mother_day_max activity). To be investigated.">⚠ launchApp com.miko3.app: Unable to launch app com.miko3.app — pre-prod…</div></td>
+      <td><span class="pri pri-med">Medium</span></td>
+      <td class="mono yaml-col">15_GetHelp.yaml</td>
+      <td><span class="badge failed">FAILED</span></td>
+      <td class="dur-col muted">21s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="failed">
+      <td class="tcid-col mono">TC093</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Help Center</td>
+      <td class="scenario-col">Subscribe/Unsubscribe screen shows FAQ items; accordion expands correctly<div class="fail-hint" title="launchApp com.miko3.app: Unable to launch app com.miko3.app — pre-prod launchApp incompatibility (mother_day_max activity). To be investigated.">⚠ launchApp com.miko3.app: Unable to launch app com.miko3.app — pre-prod…</div></td>
+      <td><span class="pri pri-med">Medium</span></td>
+      <td class="mono yaml-col">15_GetHelp.yaml</td>
+      <td><span class="badge failed">FAILED</span></td>
+      <td class="dur-col muted">21s</td>
+    </tr>
+<tr class="tc-row" data-product="app" data-status="failed">
+      <td class="tcid-col mono">TC094</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td class="module-col">Help Center</td>
+      <td class="scenario-col">Search in Get Help returns only Max-related FAQ results for query max<div class="fail-hint" title="launchApp com.miko3.app: Unable to launch app com.miko3.app — pre-prod launchApp incompatibility (mother_day_max activity). To be investigated.">⚠ launchApp com.miko3.app: Unable to launch app com.miko3.app — pre-prod…</div></td>
+      <td><span class="pri pri-high">High</span></td>
+      <td class="mono yaml-col">15_GetHelp.yaml</td>
+      <td><span class="badge failed">FAILED</span></td>
+      <td class="dur-col muted">21s</td>
+    </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="empty" id="tcEmpty" style="display:none">No test cases match the current filters.</div>
+</div>
+
+<div class="tab-panel" id="yaml-tab">
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>YAML File</th>
+          <th>Product</th>
+          <th>TCs Covered</th>
+          <th>Status</th>
+          <th>Duration</th>
+        </tr>
+      </thead>
+      <tbody>
+<tr class="yaml-row" data-product="app">
+      <td class="mono">01_AppLaunch.yaml</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td>TC001</td>
+      <td><span class="badge notrun">NOT RUN</span></td>
+      <td class="muted">—</td>
+    </tr>
+<tr class="yaml-row" data-product="app">
+      <td class="mono">02_IntermediateScreen.yaml</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td>TC002, TC003</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="muted">4s</td>
+    </tr>
+<tr class="yaml-row" data-product="app">
+      <td class="mono">02b_IntermediateScreen_KidsZoneTiles.yaml</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td>TC095, TC096</td>
+      <td><span class="badge failed">FAILED</span></td>
+      <td class="muted">23s</td>
+    </tr>
+<tr class="yaml-row" data-product="app">
+      <td class="mono">03_ParentsZoneEntry.yaml</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td>TC004, TC005, TC006, TC049, TC075</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="muted">26s</td>
+    </tr>
+<tr class="yaml-row" data-product="app">
+      <td class="mono">04_HomeTab.yaml</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td>TC007, TC009, TC049</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="muted">9s</td>
+    </tr>
+<tr class="yaml-row" data-product="app">
+      <td class="mono">05_Reports.yaml</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td>TC012, TC013</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="muted">14s</td>
+    </tr>
+<tr class="yaml-row" data-product="app">
+      <td class="mono">06_Reports_ChildSwitch.yaml</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td>TC014, TC015, TC087</td>
+      <td><span class="badge failed">FAILED</span></td>
+      <td class="muted">21s</td>
+    </tr>
+<tr class="yaml-row" data-product="app">
+      <td class="mono">07_Reports_LearningEmptyState.yaml</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td>TC088</td>
+      <td><span class="badge failed">FAILED</span></td>
+      <td class="muted">22s</td>
+    </tr>
+<tr class="yaml-row" data-product="app">
+      <td class="mono">06_Shield.yaml</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td>TC016, TC017</td>
+      <td><span class="badge failed">FAILED</span></td>
+      <td class="muted">25s</td>
+    </tr>
+<tr class="yaml-row" data-product="app">
+      <td class="mono">07_AIConversations.yaml</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td>TC018</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="muted">19s</td>
+    </tr>
+<tr class="yaml-row" data-product="app">
+      <td class="mono">08_LockKidsZone.yaml</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td>TC019</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="muted">23s</td>
+    </tr>
+<tr class="yaml-row" data-product="app">
+      <td class="mono">09_ScreenTime.yaml</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td>TC022, TC070</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="muted">18s</td>
+    </tr>
+<tr class="yaml-row" data-product="app">
+      <td class="mono">10_BedtimeSchedule.yaml</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td>TC024</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="muted">20s</td>
+    </tr>
+<tr class="yaml-row" data-product="app">
+      <td class="mono">11_DailyRewards.yaml</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td>TC025, TC069</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="muted">19s</td>
+    </tr>
+<tr class="yaml-row" data-product="app">
+      <td class="mono">12_Settings.yaml</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td>TC031, TC032, TC033, TC034, TC035, TC036, TC037, TC038, TC039, TC040, TC041, TC042, TC073</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="muted">23s</td>
+    </tr>
+<tr class="yaml-row" data-product="app">
+      <td class="mono">13_MikoMaxSubscription.yaml</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td>TC067, TC068</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="muted">18s</td>
+    </tr>
+<tr class="yaml-row" data-product="app">
+      <td class="mono">14_AppAccess.yaml</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td>TC023, TC050, TC071</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="muted">25s</td>
+    </tr>
+<tr class="yaml-row" data-product="app">
+      <td class="mono">15_GetHelp.yaml</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td>TC089, TC090, TC091, TC092, TC093, TC094</td>
+      <td><span class="badge failed">FAILED</span></td>
+      <td class="muted">21s</td>
+    </tr>
+<tr class="yaml-row" data-product="app">
+      <td class="mono">16_UnlinkMiko.yaml</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td>TC097, TC098</td>
+      <td><span class="badge failed">FAILED</span></td>
+      <td class="muted">21s</td>
+    </tr>
+<tr class="yaml-row" data-product="app">
+      <td class="mono">99_CleanUp.yaml</td>
+      <td><span class="prod-badge prod-app">App</span></td>
+      <td>—</td>
+      <td><span class="badge passed">PASSED</span></td>
+      <td class="muted">0s</td>
+    </tr>
+<tr class="yaml-row" data-product="miko3parentalcontrol">
+      <td class="mono">00_SwitchToMiko3.yaml</td>
+      <td><span class="prod-badge prod-miko3parentalcontrol">Miko3ParentalControl</span></td>
+      <td>—</td>
+      <td><span class="badge notrun">NOT RUN</span></td>
+      <td class="muted">—</td>
+    </tr>
+<tr class="yaml-row" data-product="miko3parentalcontrol">
+      <td class="mono">01_M3_IntermediateScreen.yaml</td>
+      <td><span class="prod-badge prod-miko3parentalcontrol">Miko3ParentalControl</span></td>
+      <td>TC054, TC055, TC056</td>
+      <td><span class="badge notrun">NOT RUN</span></td>
+      <td class="muted">—</td>
+    </tr>
+<tr class="yaml-row" data-product="miko3parentalcontrol">
+      <td class="mono">02_M3_Settings.yaml</td>
+      <td><span class="prod-badge prod-miko3parentalcontrol">Miko3ParentalControl</span></td>
+      <td>TC058 (partial)</td>
+      <td><span class="badge notrun">NOT RUN</span></td>
+      <td class="muted">—</td>
+    </tr>
+<tr class="yaml-row" data-product="miko3parentalcontrol">
+      <td class="mono">03_M3_ContentSafety.yaml</td>
+      <td><span class="prod-badge prod-miko3parentalcontrol">Miko3ParentalControl</span></td>
+      <td>TC059</td>
+      <td><span class="badge notrun">NOT RUN</span></td>
+      <td class="muted">—</td>
+    </tr>
+<tr class="yaml-row" data-product="miko3parentalcontrol">
+      <td class="mono">04_M3_DoNotDisturb.yaml</td>
+      <td><span class="prod-badge prod-miko3parentalcontrol">Miko3ParentalControl</span></td>
+      <td>TC058</td>
+      <td><span class="badge notrun">NOT RUN</span></td>
+      <td class="muted">—</td>
+    </tr>
+<tr class="yaml-row" data-product="miko3parentalcontrol">
+      <td class="mono">05_M3_StoryMaker.yaml</td>
+      <td><span class="prod-badge prod-miko3parentalcontrol">Miko3ParentalControl</span></td>
+      <td>TC061</td>
+      <td><span class="badge notrun">NOT RUN</span></td>
+      <td class="muted">—</td>
+    </tr>
+<tr class="yaml-row" data-product="miko3parentalcontrol">
+      <td class="mono">06_M3_VideoCall.yaml</td>
+      <td><span class="prod-badge prod-miko3parentalcontrol">Miko3ParentalControl</span></td>
+      <td>TC046</td>
+      <td><span class="badge notrun">NOT RUN</span></td>
+      <td class="muted">—</td>
+    </tr>
+<tr class="yaml-row" data-product="miniparentalcontrol">
+      <td class="mono">00_SwitchToMini.yaml</td>
+      <td><span class="prod-badge prod-miniparentalcontrol">MiniParentalControl</span></td>
+      <td>—</td>
+      <td><span class="badge notrun">NOT RUN</span></td>
+      <td class="muted">—</td>
+    </tr>
+<tr class="yaml-row" data-product="miniparentalcontrol">
+      <td class="mono">01_Mini_IntermediateScreen.yaml</td>
+      <td><span class="prod-badge prod-miniparentalcontrol">MiniParentalControl</span></td>
+      <td>TC063, TC066</td>
+      <td><span class="badge notrun">NOT RUN</span></td>
+      <td class="muted">—</td>
+    </tr>
+<tr class="yaml-row" data-product="miniparentalcontrol">
+      <td class="mono">02_Mini_ManageWiFi.yaml</td>
+      <td><span class="prod-badge prod-miniparentalcontrol">MiniParentalControl</span></td>
+      <td>TC064, TC065</td>
+      <td><span class="badge notrun">NOT RUN</span></td>
+      <td class="muted">—</td>
+    </tr>
+<tr class="yaml-row" data-product="book">
+      <td class="mono">00_Book_Tab_Navigation.yaml</td>
+      <td><span class="prod-badge prod-book">Book</span></td>
+      <td>TC076</td>
+      <td><span class="badge notrun">NOT RUN</span></td>
+      <td class="muted">—</td>
+    </tr>
+<tr class="yaml-row" data-product="book">
+      <td class="mono">01_Book_Hello_DefaultPage.yaml</td>
+      <td><span class="prod-badge prod-book">Book</span></td>
+      <td>TC077</td>
+      <td><span class="badge notrun">NOT RUN</span></td>
+      <td class="muted">—</td>
+    </tr>
+<tr class="yaml-row" data-product="book">
+      <td class="mono">02_Book_Hello_Orders.yaml</td>
+      <td><span class="prod-badge prod-book">Book</span></td>
+      <td>TC078</td>
+      <td><span class="badge notrun">NOT RUN</span></td>
+      <td class="muted">—</td>
+    </tr>
+<tr class="yaml-row" data-product="book">
+      <td class="mono">03_Book_Help.yaml</td>
+      <td><span class="prod-badge prod-book">Book</span></td>
+      <td>TC079</td>
+      <td><span class="badge notrun">NOT RUN</span></td>
+      <td class="muted">—</td>
+    </tr>
+<tr class="yaml-row" data-product="book">
+      <td class="mono">04_Book_Vijay_StoriesPage.yaml</td>
+      <td><span class="prod-badge prod-book">Book</span></td>
+      <td>TC080, TC081, TC082, TC083</td>
+      <td><span class="badge notrun">NOT RUN</span></td>
+      <td class="muted">—</td>
+    </tr>
+<tr class="yaml-row" data-product="book">
+      <td class="mono">05_Book_Vijay_OrderDetail.yaml</td>
+      <td><span class="prod-badge prod-book">Book</span></td>
+      <td>TC084, TC085, TC086</td>
+      <td><span class="badge notrun">NOT RUN</span></td>
+      <td class="muted">—</td>
+    </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<footer>
+  Miko QA Automation &nbsp;|&nbsp; MaestroRegression Suite &nbsp;|&nbsp; Generated: 5/5/2026, 9:05:24 PM &nbsp;|&nbsp; Confidential &mdash; Internal Use Only
+</footer>
+
+<script>
+var activeProd   = 'all';
+var activeStatus = 'all';
+var searchTerm   = '';
+
+function showTab(id, el) {
+  document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+  document.getElementById(id).classList.add('active');
+  el.classList.add('active');
+}
+
+function filterProd(val, btn) {
+  activeProd = val;
+  document.querySelectorAll('.filter-bar .fb').forEach(function(b){
+    if(['all','common','miko3','mini'].includes(b.textContent.toLowerCase().trim())||b.textContent==='All'){
+      // only deactivate prod buttons
+    }
+  });
+  // reset prod buttons
+  btn.closest('.filter-bar').querySelectorAll('.fb:not(.f-pass):not(.f-fail):not(.f-notrun)').forEach(function(b,i){
+    if(i<4) b.classList.remove('active');
+  });
+  btn.classList.add('active');
+  applyFilters();
+}
+
+function filterStatus(val, btn) {
+  activeStatus = val;
+  btn.closest('.filter-bar').querySelectorAll('.fb.f-pass,.fb.f-fail,.fb.f-notrun,.filter-bar .fb:not(.f-pass):not(.f-fail):not(.f-notrun)').forEach(function(b){});
+  // reset status buttons (index 5+)
+  var allFb = btn.closest('.filter-bar').querySelectorAll('.fb');
+  allFb.forEach(function(b,i){ if(i>=5) b.classList.remove('active'); });
+  btn.classList.add('active');
+  applyFilters();
+}
+
+function applySearch() {
+  searchTerm = document.getElementById('searchBox').value.toLowerCase();
+  applyFilters();
+}
+
+function applyFilters() {
+  var rows = document.querySelectorAll('#tcBody .tc-row');
+  var visible = 0;
+  rows.forEach(function(row) {
+    var prod   = row.dataset.product || '';
+    var status = row.dataset.status  || '';
+    var text   = row.textContent.toLowerCase();
+
+    var showProd   = activeProd   === 'all' || prod   === activeProd;
+    var showStatus = activeStatus === 'all' || status === activeStatus;
+    var showSearch = !searchTerm  || text.includes(searchTerm);
+
+    var show = showProd && showStatus && showSearch;
+    row.style.display = show ? '' : 'none';
+    if(show) visible++;
+  });
+  document.getElementById('tcEmpty').style.display = visible === 0 ? 'block' : 'none';
+}
+</script>
+</body>
+</html>
