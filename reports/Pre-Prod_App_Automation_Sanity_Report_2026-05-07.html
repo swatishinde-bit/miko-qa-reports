@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>MaestroRegression Report — 5/8/2026, 3:29:03 PM</title>
+<title>MaestroRegression Report — 5/8/2026, 3:39:14 PM</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -20,16 +20,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 .print-btn:hover{background:rgba(255,255,255,.35)}
 
 /* Summary */
-.summary{background:var(--card);border-bottom:1px solid var(--bdr);padding:16px 28px;display:flex;gap:40px;flex-wrap:wrap;align-items:flex-start}
-.sum-table{border-collapse:collapse;min-width:260px}
-.sum-table th{font-size:.63rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);padding:0 16px 8px 0;text-align:left;border-bottom:1px solid var(--bdr)}
-.sum-table th.sum-r,.sum-table td.sum-r{text-align:right}
-.sum-table td{padding:5px 16px 5px 0;font-size:.82rem;color:var(--text);vertical-align:middle;white-space:nowrap}
-.sum-table tr.sum-sep td{border-top:1px solid var(--bdr);padding-top:9px}
-.sum-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:7px;vertical-align:middle}
-.sum-n{font-weight:800;font-size:1.05rem}
-.sum-pct{font-size:.7rem;color:var(--muted)}
-.progress-wrap{min-width:200px;flex:1;align-self:center}
+.summary{background:var(--card);border-bottom:1px solid var(--bdr);padding:16px 28px;display:flex;gap:20px;flex-wrap:wrap;align-items:center}
+.stat{min-width:80px}
+.stat .n{font-size:1.9rem;font-weight:800;line-height:1}
+.stat .l{font-size:.65rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-top:2px}
+.stat.s-total .n{color:var(--text)}
+.stat.s-pass .n{color:var(--green)}
+.stat.s-fail .n{color:var(--red)}
+.stat.s-notrun .n{color:var(--amber)}
+.stat.s-manual .n{color:var(--teal)}
+.stat.s-rate .n{color:var(--blue)}
+.progress-wrap{flex:1;min-width:160px}
 .prog-labels{display:flex;justify-content:space-between;font-size:.65rem;color:var(--muted);margin-bottom:4px;flex-wrap:wrap;gap:4px}
 .progress{height:10px;background:#e8ecf1;border-radius:99px;overflow:hidden;display:flex}
 .prog-pass{background:var(--green)}.prog-fail{background:var(--red)}.prog-notrun{background:var(--amber)}.prog-manual{background:#b2dfdb}
@@ -189,24 +190,18 @@ footer{text-align:center;padding:12px 28px;color:var(--muted);font-size:.7rem;bo
 <header class="hdr">
   <div>
     <h1>MaestroRegression &mdash; TC Coverage Report</h1>
-    <div class="sub">5/8/2026, 3:29:03 PM &nbsp;&middot;&nbsp; All Products</div>
+    <div class="sub">5/8/2026, 3:39:14 PM &nbsp;&middot;&nbsp; All Products</div>
   </div>
   <button class="print-btn" onclick="window.print()">Print / Save PDF</button>
 </header>
 
 <div class="summary">
-  <table class="sum-table">
-    <thead><tr><th>Status</th><th class="sum-r">Count</th><th class="sum-r">Share</th></tr></thead>
-    <tbody>
-      <tr><td><span class="sum-dot" style="background:var(--green)"></span>Passed</td><td class="sum-n sum-r" style="color:var(--green)">36</td><td class="sum-pct sum-r">36.7%</td></tr>
-      <tr><td><span class="sum-dot" style="background:var(--red)"></span>Failed</td><td class="sum-n sum-r" style="color:var(--red)">16</td><td class="sum-pct sum-r">16.3%</td></tr>
-      <tr><td><span class="sum-dot" style="background:var(--amber)"></span>Not Run</td><td class="sum-n sum-r" style="color:var(--amber)">23</td><td class="sum-pct sum-r">23.5%</td></tr>
-      <tr><td><span class="sum-dot" style="background:#b2dfdb"></span>Covered in Manual</td><td class="sum-n sum-r" style="color:var(--teal)">23</td><td class="sum-pct sum-r">23.5%</td></tr>
-      <tr class="sum-sep"><td style="font-weight:600">Total TCs</td><td class="sum-n sum-r">98</td><td class="sum-pct sum-r">—</td></tr>
-      <tr><td style="color:var(--muted)">Pass Rate</td><td class="sum-n sum-r" style="color:var(--blue)">69%</td><td class="sum-pct sum-r">of executed</td></tr>
-      <tr><td style="color:var(--muted)">Run Duration</td><td class="sum-n" style="font-size:.9rem" colspan="2">05:51</td></tr>
-    </tbody>
-  </table>
+  <div class="stat s-total"><div class="n">98</div><div class="l">Total TCs</div></div>
+  <div class="stat s-pass"> <div class="n">36</div><div class="l">Passed</div></div>
+  <div class="stat s-fail"> <div class="n">16</div><div class="l">Failed</div></div>
+  <div class="stat s-notrun"><div class="n">23</div><div class="l">Not Run</div></div>
+  <div class="stat s-manual"><div class="n">23</div><div class="l">Covered in Manual</div></div>
+  <div class="stat s-rate"> <div class="n">69%</div><div class="l">Pass Rate</div></div>
   <div class="progress-wrap">
     <div class="prog-labels">
       <span>0</span>
@@ -225,8 +220,8 @@ footer{text-align:center;padding:12px 28px;color:var(--muted);font-size:.7rem;bo
       <span style="color:#b2dfdb">&#9632; Covered in Manual</span>
     </div>
   </div>
+  <div class="stat"><div class="n" style="font-size:1rem;color:var(--muted)">05:51</div><div class="l">Run Duration</div></div>
 </div>
-
 
 <div class="filter-bar">
   <span class="filter-label">Product:</span>
@@ -681,7 +676,7 @@ footer{text-align:center;padding:12px 28px;color:var(--muted);font-size:.7rem;bo
 </div>
 
 <footer>
-  Miko QA Automation &nbsp;|&nbsp; MaestroRegression Suite &nbsp;|&nbsp; Generated: 5/8/2026, 3:29:03 PM &nbsp;|&nbsp; Developed by Swati Shinde &nbsp;|&nbsp; Confidential &mdash; Internal Use Only
+  Miko QA Automation &nbsp;|&nbsp; MaestroRegression Suite &nbsp;|&nbsp; Generated: 5/8/2026, 3:39:14 PM &nbsp;|&nbsp; Developed by Swati Shinde &nbsp;|&nbsp; Confidential &mdash; Internal Use Only
 </footer>
 
 <!-- YAML Script Modal -->
