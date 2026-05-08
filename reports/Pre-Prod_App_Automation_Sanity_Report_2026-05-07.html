@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>MaestroRegression Report — 5/8/2026, 3:07:47 PM</title>
+<title>MaestroRegression Report — 5/8/2026, 3:29:03 PM</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -20,17 +20,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 .print-btn:hover{background:rgba(255,255,255,.35)}
 
 /* Summary */
-.summary{background:var(--card);border-bottom:1px solid var(--bdr);padding:16px 28px;display:flex;gap:20px;flex-wrap:wrap;align-items:center}
-.stat{min-width:80px}
-.stat .n{font-size:1.9rem;font-weight:800;line-height:1}
-.stat .l{font-size:.65rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-top:2px}
-.stat.s-total .n{color:var(--text)}
-.stat.s-pass .n{color:var(--green)}
-.stat.s-fail .n{color:var(--red)}
-.stat.s-notrun .n{color:var(--amber)}
-.stat.s-manual .n{color:var(--teal)}
-.stat.s-rate .n{color:var(--blue)}
-.progress-wrap{flex:1;min-width:160px}
+.summary{background:var(--card);border-bottom:1px solid var(--bdr);padding:16px 28px;display:flex;gap:40px;flex-wrap:wrap;align-items:flex-start}
+.sum-table{border-collapse:collapse;min-width:260px}
+.sum-table th{font-size:.63rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);padding:0 16px 8px 0;text-align:left;border-bottom:1px solid var(--bdr)}
+.sum-table th.sum-r,.sum-table td.sum-r{text-align:right}
+.sum-table td{padding:5px 16px 5px 0;font-size:.82rem;color:var(--text);vertical-align:middle;white-space:nowrap}
+.sum-table tr.sum-sep td{border-top:1px solid var(--bdr);padding-top:9px}
+.sum-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:7px;vertical-align:middle}
+.sum-n{font-weight:800;font-size:1.05rem}
+.sum-pct{font-size:.7rem;color:var(--muted)}
+.progress-wrap{min-width:200px;flex:1;align-self:center}
 .prog-labels{display:flex;justify-content:space-between;font-size:.65rem;color:var(--muted);margin-bottom:4px;flex-wrap:wrap;gap:4px}
 .progress{height:10px;background:#e8ecf1;border-radius:99px;overflow:hidden;display:flex}
 .prog-pass{background:var(--green)}.prog-fail{background:var(--red)}.prog-notrun{background:var(--amber)}.prog-manual{background:#b2dfdb}
@@ -190,18 +189,24 @@ footer{text-align:center;padding:12px 28px;color:var(--muted);font-size:.7rem;bo
 <header class="hdr">
   <div>
     <h1>MaestroRegression &mdash; TC Coverage Report</h1>
-    <div class="sub">5/8/2026, 3:07:47 PM &nbsp;&middot;&nbsp; All Products</div>
+    <div class="sub">5/8/2026, 3:29:03 PM &nbsp;&middot;&nbsp; All Products</div>
   </div>
   <button class="print-btn" onclick="window.print()">Print / Save PDF</button>
 </header>
 
 <div class="summary">
-  <div class="stat s-total"><div class="n">98</div><div class="l">Total TCs</div></div>
-  <div class="stat s-pass"> <div class="n">36</div><div class="l">Passed</div></div>
-  <div class="stat s-fail"> <div class="n">16</div><div class="l">Failed</div></div>
-  <div class="stat s-notrun"><div class="n">23</div><div class="l">Not Run</div></div>
-  <div class="stat s-manual"><div class="n">23</div><div class="l">Covered in Manual</div></div>
-  <div class="stat s-rate"> <div class="n">69%</div><div class="l">Pass Rate</div></div>
+  <table class="sum-table">
+    <thead><tr><th>Status</th><th class="sum-r">Count</th><th class="sum-r">Share</th></tr></thead>
+    <tbody>
+      <tr><td><span class="sum-dot" style="background:var(--green)"></span>Passed</td><td class="sum-n sum-r" style="color:var(--green)">36</td><td class="sum-pct sum-r">36.7%</td></tr>
+      <tr><td><span class="sum-dot" style="background:var(--red)"></span>Failed</td><td class="sum-n sum-r" style="color:var(--red)">16</td><td class="sum-pct sum-r">16.3%</td></tr>
+      <tr><td><span class="sum-dot" style="background:var(--amber)"></span>Not Run</td><td class="sum-n sum-r" style="color:var(--amber)">23</td><td class="sum-pct sum-r">23.5%</td></tr>
+      <tr><td><span class="sum-dot" style="background:#b2dfdb"></span>Covered in Manual</td><td class="sum-n sum-r" style="color:var(--teal)">23</td><td class="sum-pct sum-r">23.5%</td></tr>
+      <tr class="sum-sep"><td style="font-weight:600">Total TCs</td><td class="sum-n sum-r">98</td><td class="sum-pct sum-r">—</td></tr>
+      <tr><td style="color:var(--muted)">Pass Rate</td><td class="sum-n sum-r" style="color:var(--blue)">69%</td><td class="sum-pct sum-r">of executed</td></tr>
+      <tr><td style="color:var(--muted)">Run Duration</td><td class="sum-n" style="font-size:.9rem" colspan="2">05:51</td></tr>
+    </tbody>
+  </table>
   <div class="progress-wrap">
     <div class="prog-labels">
       <span>0</span>
@@ -220,21 +225,15 @@ footer{text-align:center;padding:12px 28px;color:var(--muted);font-size:.7rem;bo
       <span style="color:#b2dfdb">&#9632; Covered in Manual</span>
     </div>
   </div>
-  <div class="stat"><div class="n" style="font-size:1rem;color:var(--muted)">05:51</div><div class="l">Run Duration</div></div>
 </div>
 
-<div class="run-bar">
-  Results from: <b>results_preprod_sanity_2026-05-05.json</b> &nbsp;&middot;&nbsp;
-  Run date: <b>5/8/2026, 3:07:47 PM</b> &nbsp;&middot;&nbsp;
-  Coverage: <b>MaestroRegression_TestCoverage.csv</b>
-</div>
 
 <div class="filter-bar">
   <span class="filter-label">Product:</span>
   <button class="fb active" onclick="filterProd('all',this)">All</button>
   <button class="fb" onclick="filterProd('app',this)">App</button>
-  <button class="fb" onclick="filterProd('miko3',this)">Miko3</button>
-  <button class="fb" onclick="filterProd('mini',this)">Mini</button>
+  <button class="fb" onclick="filterProd('miko3',this)">Miko3ParentalControls</button>
+  <button class="fb" onclick="filterProd('mini',this)">MiniParentalControls</button>
   <div class="sep"></div>
   <span class="filter-label">Status:</span>
   <button class="fb active" onclick="filterStatus('all',this)">All</button>
@@ -244,14 +243,12 @@ footer{text-align:center;padding:12px 28px;color:var(--muted);font-size:.7rem;bo
   <button class="fb f-manual" onclick="filterStatus('covered-in-manual',this)">Covered in Manual</button>
 </div>
 
-<div class="search-wrap">
-  <input class="search-box" id="searchBox" type="text" placeholder="Search TC ID, module, scenario, YAML file..." oninput="applySearch()">
-</div>
 
 <div class="tabs">
   <div class="tab active" onclick="showTab('tc-tab',this)">Test Cases (98)</div>
   <div class="tab" onclick="showTab('fa-tab',this)">Failure Analysis (16)</div>
   <div class="tab" onclick="showTab('mod-tab',this)">By Module</div>
+  <div class="tab" onclick="showTab('manual-tab',this)">Covered in Manual (23)</div>
   <div class="tab" onclick="showTab('yaml-tab',this)">YAML Files (36)</div>
 </div>
 
@@ -597,6 +594,43 @@ footer{text-align:center;padding:12px 28px;color:var(--muted);font-size:.7rem;bo
 <tr><td class="tcid-col mono">TC086</td><td>Order Now CTA and Secure Checkout trust badge visible</td><td><span class="badge notrun" style="font-size:.58rem">NOT RUN</span></td><td><span class="ft-badge ft-not-run" style="font-size:.6rem">Not Included in Run</span><div class="reason-text" style="font-size:.65rem;margin-top:3px">Not executed in this automated run — covered manually in this testing cycle. Note: DO NOT place order — back navigation only. extendedWaitUntil guard at top for standalone runs.</div></td></tr></tbody></table></div></div></div>
 </div>
 
+<!-- Covered in Manual Tab -->
+<div class="tab-panel" id="manual-tab">
+  <p style="font-size:.8rem;color:var(--muted);margin-bottom:16px">These test cases are not yet automated &mdash; validated manually during the current testing cycle.</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr><th>TC ID</th><th>Module</th><th>Test Scenario</th><th>Priority</th></tr>
+      </thead>
+      <tbody>
+<tr><td class="tcid-col mono">TC008</td><td class="module-col">Parents Zone - Home Tab</td><td>Know Your Miko checklist is visible with voice commands</td><td><span class="pri pri-med">Medium</span></td></tr>
+<tr><td class="tcid-col mono">TC010</td><td class="module-col">Parents Zone - Max Tab</td><td>Max tab loads and shows ACTIVE status</td><td><span class="pri pri-high">High</span></td></tr>
+<tr><td class="tcid-col mono">TC011</td><td class="module-col">Parents Zone - Max Tab</td><td>Global learning stats are visible on Max tab</td><td><span class="pri pri-med">Medium</span></td></tr>
+<tr><td class="tcid-col mono">TC020</td><td class="module-col">Parents Zone - Shield Tab</td><td>Block Topics tile is accessible</td><td><span class="pri pri-med">Medium</span></td></tr>
+<tr><td class="tcid-col mono">TC021</td><td class="module-col">Parents Zone - Shield Tab</td><td>Block Words/Phrases tile is accessible</td><td><span class="pri pri-med">Medium</span></td></tr>
+<tr><td class="tcid-col mono">TC026</td><td class="module-col">Parents Zone - Shield Tab</td><td>Child selector on Shield tab works</td><td><span class="pri pri-med">Medium</span></td></tr>
+<tr><td class="tcid-col mono">TC027</td><td class="module-col">Parents Zone - Blog Tab</td><td>Blog tab loads with Popular reads section</td><td><span class="pri pri-med">Medium</span></td></tr>
+<tr><td class="tcid-col mono">TC028</td><td class="module-col">Parents Zone - Blog Tab</td><td>Blog category tabs are visible</td><td><span class="pri pri-low">Low</span></td></tr>
+<tr><td class="tcid-col mono">TC029</td><td class="module-col">Parents Zone - Blog Tab</td><td>Blog For Kids tab navigates correctly</td><td><span class="pri pri-low">Low</span></td></tr>
+<tr><td class="tcid-col mono">TC030</td><td class="module-col">Parents Zone - Blog Tab</td><td>Blog For Parents tab navigates correctly</td><td><span class="pri pri-low">Low</span></td></tr>
+<tr><td class="tcid-col mono">TC043</td><td class="module-col">Settings - More</td><td>More sheet opens from device settings row</td><td><span class="pri pri-med">Medium</span></td></tr>
+<tr><td class="tcid-col mono">TC044</td><td class="module-col">Settings - More</td><td>Switch Child Profile option is accessible</td><td><span class="pri pri-med">Medium</span></td></tr>
+<tr><td class="tcid-col mono">TC045</td><td class="module-col">Video Call (Mikonnect)</td><td>Video Call entry from Parents Zone top menu</td><td><span class="pri pri-high">High</span></td></tr>
+<tr><td class="tcid-col mono">TC047</td><td class="module-col">Miko Shield Card</td><td>Miko Shield card on intermediate screen is tappable</td><td><span class="pri pri-med">Medium</span></td></tr>
+<tr><td class="tcid-col mono">TC048</td><td class="module-col">Report Banner</td><td>Learning report banner on intermediate screen is tappable</td><td><span class="pri pri-med">Medium</span></td></tr>
+<tr><td class="tcid-col mono">TC051</td><td class="module-col">Settings - Device</td><td>Set Location opens location search screen</td><td><span class="pri pri-med">Medium</span></td></tr>
+<tr><td class="tcid-col mono">TC052</td><td class="module-col">Settings - Device</td><td>Set Alarm opens alarm configuration</td><td><span class="pri pri-med">Medium</span></td></tr>
+<tr><td class="tcid-col mono">TC053</td><td class="module-col">Settings - Device</td><td>Tune Miko Listening Power screen opens</td><td><span class="pri pri-med">Medium</span></td></tr>
+<tr><td class="tcid-col mono">TC057</td><td class="module-col">Intermediate Screen</td><td>Miko3 Let.s Play button navigates to Kids Zone</td><td><span class="pri pri-high">High</span></td></tr>
+<tr><td class="tcid-col mono">TC060</td><td class="module-col">Kids Zone</td><td>Disney talent section opens from intermediate screen</td><td><span class="pri pri-high">High</span></td></tr>
+<tr><td class="tcid-col mono">TC062</td><td class="module-col">Kids Zone</td><td>iHeart Max opens from intermediate screen</td><td><span class="pri pri-high">High</span></td></tr>
+<tr><td class="tcid-col mono">TC072</td><td class="module-col">Parents Zone - Shield Tab</td><td>Block Words - add word flow works</td><td><span class="pri pri-med">Medium</span></td></tr>
+<tr><td class="tcid-col mono">TC074</td><td class="module-col">Settings - Parental Control</td><td>Child Profile section opens from device card</td><td><span class="pri pri-high">High</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
 <!-- YAML Files Tab -->
 <div class="tab-panel" id="yaml-tab">
   <div class="tbl-wrap">
@@ -647,7 +681,7 @@ footer{text-align:center;padding:12px 28px;color:var(--muted);font-size:.7rem;bo
 </div>
 
 <footer>
-  Miko QA Automation &nbsp;|&nbsp; MaestroRegression Suite &nbsp;|&nbsp; Generated: 5/8/2026, 3:07:47 PM &nbsp;|&nbsp; Developed by Swati Shinde &nbsp;|&nbsp; Confidential &mdash; Internal Use Only
+  Miko QA Automation &nbsp;|&nbsp; MaestroRegression Suite &nbsp;|&nbsp; Generated: 5/8/2026, 3:29:03 PM &nbsp;|&nbsp; Developed by Swati Shinde &nbsp;|&nbsp; Confidential &mdash; Internal Use Only
 </footer>
 
 <!-- YAML Script Modal -->
@@ -671,7 +705,6 @@ footer{text-align:center;padding:12px 28px;color:var(--muted);font-size:.7rem;bo
 var YAML_DATA = {"01_AppLaunch.yaml":{"summary":"TC001 — App Launch + Login — Launches the app fresh (clearState: true), logs in with beta account via OTP,","tcIds":["TC001"],"notes":"Entry point; only script that calls launchApp","objectives":[{"tcId":"TC001","module":"App Launch","scenario":"App launches and intermediate screen loads","priority":"High"}]},"02_IntermediateScreen.yaml":{"summary":"TC002–TC005 — Intermediate Screen Elements — Verifies all key elements on the intermediate screen are visible and","tcIds":["TC002","TC003"],"notes":"","objectives":[{"tcId":"TC002","module":"Intermediate Screen","scenario":"Intermediate screen shows all parent-zone cards","priority":"High"},{"tcId":"TC003","module":"Intermediate Screen","scenario":"Child switcher shows child name","priority":"Medium"}]},"02b_IntermediateScreen_KidsZoneTiles.yaml":{"summary":"TC095-TC096 -- Intermediate Screen: Kids Zone Tiles Verification — TC095: 3 Kids Zone tiles (Learning Buddy, Story Maker, iHeart) visible for Hello;","tcIds":["TC095","TC096"],"notes":"Tile IDs confirmed live for both Hello and Miko3 (Vijay); Switch Profile confirm button required in picker flow","objectives":[{"tcId":"TC095","module":"Intermediate Screen - Kids Zone","scenario":"3 Kids Zone tiles (Learning Buddy / Story Maker / iHeart) visible for Hello; Let's Play button present","priority":"High"},{"tcId":"TC096","module":"Intermediate Screen - Kids Zone","scenario":"Switch to Vijay via child switcher; 3 Kids Zone tiles visible for Vijay","priority":"High"}]},"03_ParentsZoneEntry.yaml":{"summary":"TC006–TC008 — Parents Zone Entry (Passcode) — Verifies that tapping Parents Zone prompts for a passcode and that","tcIds":["TC004","TC005","TC006","TC049","TC075"],"notes":"TC006/TC049/TC075 assertions embedded in navigation verification","objectives":[{"tcId":"TC004","module":"Parents Zone Entry","scenario":"Passcode screen appears on tapping Parents Zone","priority":"High"},{"tcId":"TC005","module":"Parents Zone Entry","scenario":"Correct passcode (1111) grants access","priority":"High"},{"tcId":"TC006","module":"Parents Zone Entry","scenario":"Forgot Passcode link is visible","priority":"Medium"},{"tcId":"TC049","module":"Bottom Navigation","scenario":"All 5 bottom nav tabs are visible in Parents Zone","priority":"High"},{"tcId":"TC075","module":"Parents Zone - Home Tab","scenario":"Parents Zone Home tab is default after passcode entry","priority":"High"}]},"04_HomeTab.yaml":{"summary":"TC009–TC011 — Parents Zone Home Tab — Verifies the Home tab content and bottom navigation tabs.","tcIds":["TC007","TC009","TC049"],"notes":"TC049 reinforced here","objectives":[{"tcId":"TC007","module":"Parents Zone - Home Tab","scenario":"Home tab loads with banner and content","priority":"High"},{"tcId":"TC009","module":"Parents Zone - Home Tab","scenario":"Top menu icons are visible","priority":"High"},{"tcId":"TC049","module":"Bottom Navigation","scenario":"All 5 bottom nav tabs are visible in Parents Zone","priority":"High"}]},"05_Reports.yaml":{"summary":"TC012–TC015 — Reports Tab — Verifies the Reports tab loads with Overview/Learning sub-tabs and","tcIds":["TC012","TC013"],"notes":"","objectives":[{"tcId":"TC012","module":"Parents Zone - Reports Tab","scenario":"Reports tab opens with Overview sub-tab selected","priority":"High"},{"tcId":"TC013","module":"Parents Zone - Reports Tab","scenario":"Overview tab shows skill categories","priority":"Medium"}]},"06_Reports_ChildSwitch.yaml":{"summary":"TC014–TC015 + Child Switch Verification — Reports Tab — TC014: Learning sub-tab is navigable (Munchy's World, Learning Level visible)","tcIds":["TC014","TC015","TC087"],"notes":"TC087 = new child-switch data verification scenario; standalone flow with PZ entry and intermediate screen exit","objectives":[{"tcId":"TC014","module":"Parents Zone - Reports Tab","scenario":"Learning sub-tab is navigable","priority":"Medium"},{"tcId":"TC015","module":"Parents Zone - Reports Tab","scenario":"Child filter button is tappable","priority":"Medium"},{"tcId":"TC087","module":"Parents Zone - Reports Tab","scenario":"Reports data updates when switching child profile Hello → Vijay","priority":"High"}]},"07_Reports_LearningEmptyState.yaml":{"summary":"TC088 — Reports Learning Tab: Empty State + Timeline Filter — Verifies the Learning tab when Hello child has no activity (Max user):","tcIds":["TC088"],"notes":"DEV NOTE: Info banner has no resource-id — assertVisible on long accessibilityText unreliable in Maestro; dev to add id to banner view","objectives":[{"tcId":"TC088","module":"Parents Zone - Reports Tab","scenario":"Learning tab shows empty state when child has no activity","priority":"High"}]},"06_Shield.yaml":{"summary":"TC016–TC018 — Shield Tab (Miko Shield Overview) — Verifies all 8 Shield tiles are visible on the Shield tab.","tcIds":["TC016","TC017"],"notes":"TC017 header text not explicitly asserted — covered implicitly by tile assertions","objectives":[{"tcId":"TC016","module":"Parents Zone - Shield Tab","scenario":"Shield tab loads with all 8 parental control tiles","priority":"High"},{"tcId":"TC017","module":"Parents Zone - Shield Tab","scenario":"Shield tab header text is correct","priority":"Low"}]},"07_AIConversations.yaml":{"summary":"TC019–TC020 — AI Conversations (BETA) — Verifies the AI Conversations screen is accessible from the Shield tab","tcIds":["TC018"],"notes":"BETA label not explicitly asserted — id_manage_ai_conversation_title used instead","objectives":[{"tcId":"TC018","module":"Parents Zone - Shield Tab","scenario":"AI Conversations tile is accessible","priority":"Medium"}]},"08_LockKidsZone.yaml":{"summary":"TC021–TC022 — Lock Kids Zone — Verifies the Lock Kids Zone screen is accessible and the toggle is","tcIds":["TC019"],"notes":"","objectives":[{"tcId":"TC019","module":"Parents Zone - Shield Tab","scenario":"Lock Kids Zone tile is accessible","priority":"High"}]},"09_ScreenTime.yaml":{"summary":"TC023–TC025 — Manage Screen Time — Verifies the Screen Time screen loads and schedule options are visible.","tcIds":["TC022","TC070"],"notes":"Opens as bottom sheet (not full screen) — back press to dismiss","objectives":[{"tcId":"TC022","module":"Parents Zone - Shield Tab","scenario":"Manage Screen Time tile is accessible","priority":"High"},{"tcId":"TC070","module":"Parents Zone - Shield Tab","scenario":"Screen Time - schedule options visible","priority":"High"}]},"10_BedtimeSchedule.yaml":{"summary":"TC026–TC028 — Bedtime Schedule — Verifies the Bedtime Schedule screen is accessible from Shield tab","tcIds":["TC024"],"notes":"","objectives":[{"tcId":"TC024","module":"Parents Zone - Shield Tab","scenario":"Bedtime Schedule tile is accessible","priority":"Medium"}]},"11_DailyRewards.yaml":{"summary":"TC029–TC031 — Daily Rewards — Verifies the Daily Rewards screen is accessible and the reward list","tcIds":["TC025","TC069"],"notes":"","objectives":[{"tcId":"TC025","module":"Parents Zone - Shield Tab","scenario":"Daily Rewards tile is accessible","priority":"High"},{"tcId":"TC069","module":"Parents Zone - Shield Tab","scenario":"Daily Rewards toggle is present and interactable","priority":"High"}]},"12_Settings.yaml":{"summary":"TC032–TC040 — Settings (Control & Settings) — Verifies all major sections of the Settings screen are visible:","tcIds":["TC031","TC032","TC033","TC034","TC035","TC036","TC037","TC038","TC039","TC040","TC041","TC042","TC073"],"notes":"Longest script — covers full Settings scroll top to bottom","objectives":[{"tcId":"TC031","module":"Settings","scenario":"Settings screen opens from top menu icon","priority":"High"},{"tcId":"TC032","module":"Settings","scenario":"Parent profile shows name and email","priority":"Medium"},{"tcId":"TC033","module":"Settings","scenario":"Miko MAX Subscription card is visible with expiry date","priority":"High"},{"tcId":"TC034","module":"Settings","scenario":"Devices section heading is visible","priority":"Medium"},{"tcId":"TC035","module":"Settings","scenario":"Both Miko3 and Mini devices appear in Devices list","priority":"High"},{"tcId":"TC036","module":"Settings","scenario":"Link New Miko option is present","priority":"Low"},{"tcId":"TC037","module":"Settings","scenario":"Other Settings section - Change Parental Passcode","priority":"High"},{"tcId":"TC038","module":"Settings","scenario":"Other Settings section - Manage Language","priority":"Medium"},{"tcId":"TC039","module":"Settings","scenario":"Other Settings section - Privacy Policy loads","priority":"Low"},{"tcId":"TC040","module":"Settings","scenario":"Other Settings section - Terms & Conditions loads","priority":"Low"},{"tcId":"TC041","module":"Settings","scenario":"Logout option is present","priority":"Medium"},{"tcId":"TC042","module":"Settings","scenario":"App version info is visible at bottom of Settings","priority":"Low"},{"tcId":"TC073","module":"Settings - Device","scenario":"Device settings back navigation works","priority":"Medium"}]},"13_MikoMaxSubscription.yaml":{"summary":"TC041–TC043 — Miko MAX Subscription Details — Verifies the Miko MAX Subscription detail screen is accessible and","tcIds":["TC067","TC068"],"notes":"","objectives":[{"tcId":"TC067","module":"Settings - Subscription","scenario":"Miko MAX Subscription screen opens","priority":"High"},{"tcId":"TC068","module":"Settings - Subscription","scenario":"Subscription expiry date is correct","priority":"High"}]},"14_AppAccess.yaml":{"summary":"TC044–TC046 — App Access (Shield) — Verifies the App Access screen is accessible from the Shield tab","tcIds":["TC023","TC050","TC071"],"notes":"Ends chain by returning to intermediate screen","objectives":[{"tcId":"TC023","module":"Parents Zone - Shield Tab","scenario":"App Access tile is accessible","priority":"High"},{"tcId":"TC050","module":"Navigation","scenario":"Home icon in top bar returns to intermediate screen","priority":"High"},{"tcId":"TC071","module":"Parents Zone - Shield Tab","scenario":"App Access - app list visible","priority":"High"}]},"15_GetHelp.yaml":{"summary":"TC089-TC094 -- Get Help / Help Center Navigation — TC089: \"Need Help?\" card visible on PZ Home tab; tapping it opens Get Help screen","tcIds":["TC089","TC090","TC091","TC092","TC093","TC094"],"notes":"Navigation uses id_back_button for all back steps; search tapped via placeholder text: Search","objectives":[{"tcId":"TC089","module":"Parents Zone - Home Tab","scenario":"Need Help? section visible on Home tab; Ask now opens Get Help screen","priority":"High"},{"tcId":"TC090","module":"Help Center","scenario":"Get Help screen shows search bar and all help category links","priority":"Medium"},{"tcId":"TC091","module":"Help Center","scenario":"Max Subscription help category opens with two sub-links","priority":"Medium"},{"tcId":"TC092","module":"Help Center","scenario":"About Miko Max screen shows FAQ accordion items","priority":"Medium"},{"tcId":"TC093","module":"Help Center","scenario":"Subscribe/Unsubscribe screen shows FAQ items; accordion expands correctly","priority":"Medium"},{"tcId":"TC094","module":"Help Center","scenario":"Search in Get Help returns only Max-related FAQ results for query max","priority":"High"}]},"16_UnlinkMiko.yaml":{"summary":"TC097–TC098 — Settings: More Sheet & Unlink Miko Confirmation — TC097: \"More\" bottom sheet opens from a device card in Settings;","tcIds":["TC097","TC098"],"notes":"Implements TC043 (More sheet) + new TC044 pattern; Yes Proceed path NOT automated (destructive); Max subscription popup (active Max user warning) is manual-only","objectives":[{"tcId":"TC097","module":"Settings - More Sheet","scenario":"More bottom sheet opens from device card; Switch child Profile and Unlink Miko options visible","priority":"High"},{"tcId":"TC098","module":"Settings - More Sheet","scenario":"Unlink Miko confirmation dialog shows; tapping Keep my Miko dismisses safely","priority":"High"}]},"99_CleanUp.yaml":{"summary":"TC053 — Clean Up (End of Suite) — Stops the app cleanly. This is the LAST script in every run.","tcIds":[],"notes":"Not a test — housekeeping only. stopApp called here and nowhere else","objectives":[]},"00_SwitchToMiko3.yaml":{"summary":"Switch to Miko3 Product — Calls the switch subflow (currently a stub) and confirms the","tcIds":[],"notes":"Switch confirmed live (Hello/Vijay names + Switch Profile button). Fill in after product switch live test","objectives":[]},"01_M3_IntermediateScreen.yaml":{"summary":"TC054 — Miko3 Intermediate Screen Tiles — Verifies Miko3-specific content tiles on the intermediate screen:","tcIds":["TC054","TC055","TC056"],"notes":"","objectives":[{"tcId":"TC054","module":"Intermediate Screen","scenario":"Miko3 shows Disney talent tile","priority":"High"},{"tcId":"TC055","module":"Intermediate Screen","scenario":"Miko3 shows Story Maker talent tile","priority":"High"},{"tcId":"TC056","module":"Intermediate Screen","scenario":"Miko3 shows iHeart Max talent tile","priority":"High"}]},"02_M3_Settings.yaml":{"summary":"TC055–TC056 — Miko3 Settings (Product-Specific Items) — Verifies that Miko3-exclusive settings are present:","tcIds":["TC058 (partial)"],"notes":"Partial — full DND navigation in 04_M3_DoNotDisturb","objectives":[{"tcId":"TC058 (partial)","module":"","scenario":"TC058 (partial)","priority":""}]},"03_M3_ContentSafety.yaml":{"summary":"TC057 — Miko3 Content Safety — Verifies the Content Safety screen opens from Settings and loads.","tcIds":["TC059"],"notes":"NOTE: Content Safety also appears under Mini settings — may need to move to Common","objectives":[{"tcId":"TC059","module":"Settings - Parental Control","scenario":"Content Safety opens from Miko3 parental control","priority":"High"}]},"04_M3_DoNotDisturb.yaml":{"summary":"TC058 — Miko3 Do Not Disturb — Verifies the Do Not Disturb settings screen opens from Settings and loads.","tcIds":["TC058"],"notes":"Miko3-only setting confirmed","objectives":[{"tcId":"TC058","module":"Settings - Device","scenario":"Set Do Not Disturb available for Miko3","priority":"Medium"}]},"05_M3_StoryMaker.yaml":{"summary":"TC061 — Miko3 Story Maker — Verifies the Story Maker tile is visible and tappable on the","tcIds":["TC061"],"notes":"Navigation path needs review — may need to go via PZ Imagination Hub","objectives":[{"tcId":"TC061","module":"Kids Zone","scenario":"Story Maker opens from intermediate screen","priority":"High"}]},"06_M3_VideoCall.yaml":{"summary":"TC061–TC062 — Miko3 Video Call (Mikonnect) — Verifies the Video Call to Miko card navigates to the Mikonnect","tcIds":["TC046"],"notes":"TC045 (via top menu mikonnect icon) not yet covered","objectives":[{"tcId":"TC046","module":"Video Call (Mikonnect)","scenario":"Video Call card on intermediate screen","priority":"High"}]},"00_SwitchToMini.yaml":{"summary":"Switch to Miko Mini Product — Calls the switch subflow (currently a stub) and confirms the","tcIds":[],"notes":"","objectives":[]},"01_Mini_IntermediateScreen.yaml":{"summary":"TC063 — Mini Intermediate Screen — Verifies the intermediate screen for the Miko Mini product.","tcIds":["TC063","TC066"],"notes":"Mini-specific tile IDs not yet captured — TODO after live inspection with Mini active","objectives":[{"tcId":"TC063","module":"Intermediate Screen","scenario":"Mini intermediate screen loads with Let.s Play button","priority":"High"},{"tcId":"TC066","module":"Intermediate Screen","scenario":"Mini intermediate screen shows correct product identity","priority":"Medium"}]},"02_Mini_ManageWiFi.yaml":{"summary":"TC064–TC066 — Mini: Manage WiFi — Verifies the Manage WiFi screen is accessible from Settings for","tcIds":["TC064","TC065"],"notes":"","objectives":[{"tcId":"TC064","module":"Settings - Device","scenario":"Manage WiFi available for Mini","priority":"Medium"},{"tcId":"TC065","module":"Settings - Device","scenario":"Mini device card shows correct bot code","priority":"Medium"}]},"00_Book_Tab_Navigation.yaml":{"summary":"TC076 — Book: Tab Navigation & Page Load — Verifies the Book tab (Tab 5) is accessible from PZ bottom nav and Storybook page loads.","tcIds":["TC076"],"notes":"WebView load — coordinate tap at 90%/92% (text tap fails due to multiline accessibilityText)","objectives":[{"tcId":"TC076","module":"Book Tab","scenario":"Book tab accessible from PZ bottom nav; Storybook WebView page loads","priority":"text: Storybook"}]},"01_Book_Hello_DefaultPage.yaml":{"summary":"TC077 — Book: Hello Profile — Default Page (No Stories) — Verifies the full empty-state content on the Book tab for Hello (no stories created).","tcIds":["TC077"],"notes":"All assertions are WebView text — no resource IDs available inside WebView","objectives":[{"tcId":"TC077","module":"Book - Hello Profile","scenario":"Hello profile default Storybook page; empty-state message visible","priority":"High"}]},"02_Book_Hello_Orders.yaml":{"summary":"TC078 — Book: Hello Profile — Orders Page (Empty State) — Verifies the Orders page opens from the Book tab and shows empty state for Hello (no orders placed).","tcIds":["TC078"],"notes":"","objectives":[{"tcId":"TC078","module":"Book - Hello Profile","scenario":"Orders page opens via bag icon; empty-state visible for Hello","priority":"text: Orders"}]},"03_Book_Help.yaml":{"summary":"TC079 — Book: Help Button — Verifies the Help (?) button is tappable and navigates within the Book WebView.","tcIds":["TC079"],"notes":"","objectives":[{"tcId":"TC079","module":"Book - Hello Profile","scenario":"Help/FAQ page opens via help icon","priority":"text: FAQ"}]},"04_Book_Vijay_StoriesPage.yaml":{"summary":"TC080–TC083 — Book: Vijay Profile — Stories Page — TC080: Stories page loads with hero banner for Vijay's profile","tcIds":["TC080","TC081","TC082","TC083"],"notes":"Manual step required: switch profile pill to Vijay inside WebView — script waits up to 60 s via extendedWaitUntil. Pre-req: Vijay must have ≥1 story on device.","objectives":[{"tcId":"TC080","module":"Book - Vijay Profile","scenario":"Vijay Stories page — hero banner visible","priority":"High"},{"tcId":"TC081","module":"Book - Vijay Profile","scenario":"Vijay Stories page — author card with story count visible","priority":"High"},{"tcId":"TC082","module":"Book - Vijay Profile","scenario":"Story card with Order Now button visible","priority":"High"},{"tcId":"TC083","module":"Book - Vijay Profile","scenario":"Page stats and FAQ section visible on Stories page","priority":"Medium"}]},"05_Book_Vijay_OrderDetail.yaml":{"summary":"TC084–TC086 — Book: Vijay Profile — Order Detail Page — TC084: Tapping a story card opens the Order Detail page","tcIds":["TC084","TC085","TC086"],"notes":"DO NOT place order — back navigation only. extendedWaitUntil guard at top for standalone runs.","objectives":[{"tcId":"TC084","module":"Book - Vijay Order Detail","scenario":"Story card tap opens Order Detail page","priority":"High"},{"tcId":"TC085","module":"Book - Vijay Order Detail","scenario":"Product details and child photo section visible on Order Detail","priority":"High"},{"tcId":"TC086","module":"Book - Vijay Order Detail","scenario":"Order Now CTA and Secure Checkout trust badge visible","priority":"High"}]}};
 var activeProd   = "all";
 var activeStatus = "all";
-var searchTerm   = "";
 var openDetailIdx = -1;
 
 /* Tab switching */
@@ -700,22 +733,15 @@ function filterStatus(val, btn) {
   applyFilters();
 }
 
-function applySearch() {
-  searchTerm = document.getElementById("searchBox").value.toLowerCase();
-  applyFilters();
-}
-
 function applyFilters() {
   var rows = document.querySelectorAll("#tcBody .tc-row");
   var visible = 0;
   rows.forEach(function(row) {
     var prod   = row.dataset.product || "";
     var status = row.dataset.status  || "";
-    var text   = row.textContent.toLowerCase();
     var showProd   = activeProd   === "all" || prod   === activeProd;
     var showStatus = activeStatus === "all" || status === activeStatus;
-    var showSearch = !searchTerm  || text.includes(searchTerm);
-    var show = showProd && showStatus && showSearch;
+    var show = showProd && showStatus;
     var idx  = row.dataset.idx;
     row.style.display = show ? "" : "none";
     var detailRow = document.getElementById("detail-" + idx);
