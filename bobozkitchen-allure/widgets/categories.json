@@ -1,0 +1,1 @@
+{"total":2,"items":[{"uid":"beb86989c323ad5f6a23a56c9cf601f0","name":"Gesture Failures","statistic":{"failed":2,"broken":0,"skipped":0,"passed":0,"unknown":0,"total":2}},{"uid":"cd64036f7f7fd2930ce7ba1a770e9461","name":"Passed Tests","statistic":{"failed":0,"broken":0,"skipped":0,"passed":29,"unknown":0,"total":29}}]}

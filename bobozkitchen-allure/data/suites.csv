@@ -1,0 +1,137 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","116047","Pizza — bear base | chocolate sauce","","2026-06-23","passed","2026-06-23","","Bobo's Kitchen Combo Tests","",""
+"Suite 3 — Full Matrix flow: Star shape × Strawberry sauce × all 7 toppings.
+Device: ZA222LJGVX (2400×1080 landscape). Automation: Maestro MCP + ADB.
+All 13 steps: launch → gather → chop → dough → whisk → shape → sauce → 7 toppings → oven → cut → name → present → serve.
+
+Topping highlight: olive (spread position confirmed 2026-06-24).
+Shape navigation: 1× arrow_right tap → select_shape__star.
+Sauce taps: 2 taps (non-tomato sauce requires double-tap).","165000","Suite 3 — Star base | Strawberry sauce | All 7 Toppings","","2026-06-25","passed","2026-06-25","","Suite 3 — Full Matrix","",""
+"Suite 3 — Full Matrix flow: Heart shape × Cheese sauce × all 7 toppings.
+Device: ZA222LJGVX (2400×1080 landscape). Automation: Maestro MCP + ADB.
+All 13 steps: launch → gather → chop → dough → whisk → shape → sauce → 7 toppings → oven → cut → name → present → serve.
+
+Topping highlight: olive (spread position confirmed 2026-06-24).
+Shape navigation: default (no navigation needed).
+Sauce taps: 2 taps (non-tomato sauce requires double-tap).","165000","Suite 3 — Heart base | Cheese sauce | All 7 Toppings","","2026-06-25","passed","2026-06-25","","Suite 3 — Full Matrix","",""
+"","110432","Pizza — heart base | tomato sauce","","2026-06-23","passed","2026-06-23","","Bobo's Kitchen Combo Tests","",""
+"End-to-end pizza-making flow on Bobo's Kitchen (com.miko.munchykitchen).
+Device: ZA222LJGVX (2400×1080 landscape). Automation: Maestro MCP + ADB.
+All 13 steps validated: launch → ingredients → chop → dough → whisk → shape → sauce → toppings → oven → cut → name → present → serve.
+
+**Fixes applied during run:**
+- Slot 4 drag target corrected from 58%,88% to 69%,88%
+- Naming screen: explicit checkmark tap (93%,8%) required after mic timeout","189000","Full Pizza Flow — Heart base | Tomato sauce | Cheese + Mushroom","","2026-06-14","passed","2026-06-14","","Combo: Shape × Sauce","",""
+"End-to-end pizza-making flow: star base + tomato sauce + cheese/mushroom toppings.
+Device: ZA222LJGVX (2400×1080 landscape). Automation: Maestro MCP + ADB.
+
+**RESULT: FAIL — blocked at Step 2**
+
+The tutorial hand widget (a floating guide overlay) permanently covers the top-left
+fridge position (element 17 [406,318][549,461]) and intercepts all drag gestures.
+Flutter's gesture arena gives priority to the tutorial hand's recognizer over the
+ingredient's drag recognizer, regardless of touch start coordinate, gesture speed,
+or drag direction. 3/4 ingredients placed; game requires all 4 to enable checkmark.
+
+**Known working baseline**: test_pizza_heart_tomato (Run 3, 2026-06-14) completed
+all 13 steps — that run likely generated a fridge layout with no item at top-left.","40000","Full Pizza Flow — Star base | Tomato sauce | Cheese + Mushroom","","2026-06-14","failed","2026-06-14","","Combo: Shape × Sauce","",""
+"Suite 3 — Full Matrix flow: Star shape × Rainbow sauce × all 7 toppings.
+Device: ZA222LJGVX (2400×1080 landscape). Automation: Maestro MCP + ADB.
+All 13 steps: launch → gather → chop → dough → whisk → shape → sauce → 7 toppings → oven → cut → name → present → serve.
+
+Topping highlight: basil (spread position confirmed 2026-06-24).
+Shape navigation: 1× arrow_right tap → select_shape__star.
+Sauce taps: 2 taps (non-tomato sauce requires double-tap).","165000","Suite 3 — Star base | Rainbow sauce | All 7 Toppings","","2026-06-25","passed","2026-06-25","","Suite 3 — Full Matrix","",""
+"","111998","Pizza — star base | rainbow sauce","","2026-06-23","passed","2026-06-23","","Bobo's Kitchen Combo Tests","",""
+"","111859","Pizza — bear base | tomato sauce","","2026-06-23","passed","2026-06-23","","Bobo's Kitchen Combo Tests","",""
+"End-to-end pizza-making flow: bear base + tomato sauce + cheese/mushroom toppings.
+Device: ZA222LJGVX (2400×1080 landscape). Automation: Maestro MCP + ADB.
+
+**RESULT: FAIL — blocked at Step 2**
+
+The tutorial hand widget (a floating guide overlay) permanently covers the top-left
+fridge position (element 17 [406,318][549,461]) and intercepts all drag gestures.
+Flutter's gesture arena gives priority to the tutorial hand's recognizer over the
+ingredient's drag recognizer, regardless of touch start coordinate, gesture speed,
+or drag direction. 3/4 ingredients placed; game requires all 4 to enable checkmark.
+
+**Known working baseline**: test_pizza_heart_tomato (Run 3, 2026-06-14) completed
+all 13 steps — that run likely generated a fridge layout with no item at top-left.","40000","Full Pizza Flow — Bear base | Tomato sauce | Cheese + Mushroom","","2026-06-14","failed","2026-06-14","","Combo: Shape × Sauce","",""
+"Suite 3 — Full Matrix flow: Star shape × Tomato sauce × all 7 toppings.
+Device: ZA222LJGVX (2400×1080 landscape). Automation: Maestro MCP + ADB.
+All 13 steps: launch → gather → chop → dough → whisk → shape → sauce → 7 toppings → oven → cut → name → present → serve.
+
+Topping highlight: cheese (spread position confirmed 2026-06-24).
+Shape navigation: 1× arrow_right tap → select_shape__star.
+Sauce taps: 1 tap (single tap sufficient).","165000","Suite 3 — Star base | Tomato sauce | All 7 Toppings","","2026-06-25","passed","2026-06-25","","Suite 3 — Full Matrix","",""
+"","111701","Pizza — star base | cheese sauce","","2026-06-23","passed","2026-06-23","","Bobo's Kitchen Combo Tests","",""
+"","112955","Pizza — heart base | rainbow sauce","","2026-06-23","passed","2026-06-23","","Bobo's Kitchen Combo Tests","",""
+"Suite 3 — Full Matrix flow: Heart shape × Chocolate sauce × all 7 toppings.
+Device: ZA222LJGVX (2400×1080 landscape). Automation: Maestro MCP + ADB.
+All 13 steps: launch → gather → chop → dough → whisk → shape → sauce → 7 toppings → oven → cut → name → present → serve.
+
+Topping highlight: mushroom (spread position confirmed 2026-06-24).
+Shape navigation: default (no navigation needed).
+Sauce taps: 2 taps (non-tomato sauce requires double-tap).","165000","Suite 3 — Heart base | Chocolate sauce | All 7 Toppings","","2026-06-25","passed","2026-06-25","","Suite 3 — Full Matrix","",""
+"","115388","Pizza — heart base | strawberry sauce","","2026-06-23","passed","2026-06-23","","Bobo's Kitchen Combo Tests","",""
+"Suite 2: All-toppings coverage flow on Bobo's Kitchen.
+Device: ZA222LJGVX (2400×1080 landscape). Automation: Maestro MCP (semantic IDs + assertWithAI).
+Shape: heart | Sauce: tomato | Toppings: onion + cheese + olive + basil + mushroom (all 5 always-present toppings).
+10 assertWithAI validations across shape, sauce, each topping, fully-loaded state, bake, and cut.","240000","Suite 2 — Topping Coverage | Heart + Tomato + ALL 5 Toppings","","2026-06-24","passed","2026-06-24","","Suite 2 — Topping Coverage","",""
+"","111860","Pizza — star base | chocolate sauce","","2026-06-23","passed","2026-06-23","","Bobo's Kitchen Combo Tests","",""
+"","114197","Pizza — bear base | rainbow sauce","","2026-06-23","passed","2026-06-23","","Bobo's Kitchen Combo Tests","",""
+"","111560","Pizza — star base | strawberry sauce","","2026-06-23","passed","2026-06-23","","Bobo's Kitchen Combo Tests","",""
+"Suite 3 — Full Matrix flow: Heart shape × Strawberry sauce × all 7 toppings.
+Device: ZA222LJGVX (2400×1080 landscape). Automation: Maestro MCP + ADB.
+All 13 steps: launch → gather → chop → dough → whisk → shape → sauce → 7 toppings → oven → cut → name → present → serve.
+
+Topping highlight: onion (spread position confirmed 2026-06-24).
+Shape navigation: default (no navigation needed).
+Sauce taps: 2 taps (non-tomato sauce requires double-tap).","165000","Suite 3 — Heart base | Strawberry sauce | All 7 Toppings","","2026-06-25","passed","2026-06-25","","Suite 3 — Full Matrix","",""
+"","113839","Pizza — heart base | chocolate sauce","","2026-06-23","passed","2026-06-23","","Bobo's Kitchen Combo Tests","",""
+"","113900","Pizza — bear base | strawberry sauce","","2026-06-23","passed","2026-06-23","","Bobo's Kitchen Combo Tests","",""
+"Suite 3 — Full Matrix flow: Bear shape × Cheese sauce × all 7 toppings.
+Device: ZA222LJGVX (2400×1080 landscape). Automation: Maestro MCP + ADB.
+All 13 steps: launch → gather → chop → dough → whisk → shape → sauce → 7 toppings → oven → cut → name → present → serve.
+
+Topping highlight: basil (spread position confirmed 2026-06-24).
+Shape navigation: 2× arrow_right taps → select_shape__bear.
+Sauce taps: 2 taps (non-tomato sauce requires double-tap).","165000","Suite 3 — Bear base | Cheese sauce | All 7 Toppings","","2026-06-25","passed","2026-06-25","","Suite 3 — Full Matrix","",""
+"Suite 3 — Full Matrix flow: Bear shape × Tomato sauce × all 7 toppings.
+Device: ZA222LJGVX (2400×1080 landscape). Automation: Maestro MCP + ADB.
+All 13 steps: launch → gather → chop → dough → whisk → shape → sauce → 7 toppings → oven → cut → name → present → serve.
+
+Topping highlight: onion (spread position confirmed 2026-06-24).
+Shape navigation: 2× arrow_right taps → select_shape__bear.
+Sauce taps: 1 tap (single tap sufficient).","165000","Suite 3 — Bear base | Tomato sauce | All 7 Toppings","","2026-06-25","passed","2026-06-25","","Suite 3 — Full Matrix","",""
+"Suite 3 — Full Matrix flow: Bear shape × Chocolate sauce × all 7 toppings.
+Device: ZA222LJGVX (2400×1080 landscape). Automation: Maestro MCP + ADB.
+All 13 steps: launch → gather → chop → dough → whisk → shape → sauce → 7 toppings → oven → cut → name → present → serve.
+
+Topping highlight: olive (spread position confirmed 2026-06-24).
+Shape navigation: 2× arrow_right taps → select_shape__bear.
+Sauce taps: 2 taps (non-tomato sauce requires double-tap).","165000","Suite 3 — Bear base | Chocolate sauce | All 7 Toppings","","2026-06-25","passed","2026-06-25","","Suite 3 — Full Matrix","",""
+"","111297","Pizza — heart base | cheese sauce","","2026-06-23","passed","2026-06-23","","Bobo's Kitchen Combo Tests","",""
+"","113638","Pizza — bear base | cheese sauce","","2026-06-23","passed","2026-06-23","","Bobo's Kitchen Combo Tests","",""
+"Suite 3 — Full Matrix flow: Heart shape × Rainbow sauce × all 7 toppings.
+Device: ZA222LJGVX (2400×1080 landscape). Automation: Maestro MCP + ADB.
+All 13 steps: launch → gather → chop → dough → whisk → shape → sauce → 7 toppings → oven → cut → name → present → serve.
+
+Topping highlight: basil (spread position confirmed 2026-06-24).
+Shape navigation: default (no navigation needed).
+Sauce taps: 2 taps (non-tomato sauce requires double-tap).","165000","Suite 3 — Heart base | Rainbow sauce | All 7 Toppings","","2026-06-25","passed","2026-06-25","","Suite 3 — Full Matrix","",""
+"Suite 3 — Full Matrix flow: Bear shape × Rainbow sauce × all 7 toppings.
+Device: ZA222LJGVX (2400×1080 landscape). Automation: Maestro MCP + ADB.
+All 13 steps: launch → gather → chop → dough → whisk → shape → sauce → 7 toppings → oven → cut → name → present → serve.
+
+Topping highlight: mushroom (spread position confirmed 2026-06-24).
+Shape navigation: 2× arrow_right taps → select_shape__bear.
+Sauce taps: 2 taps (non-tomato sauce requires double-tap).","165000","Suite 3 — Bear base | Rainbow sauce | All 7 Toppings","","2026-06-25","passed","2026-06-25","","Suite 3 — Full Matrix","",""
+"Suite 3 — Full Matrix flow: Star shape × Chocolate sauce × all 7 toppings.
+Device: ZA222LJGVX (2400×1080 landscape). Automation: Maestro MCP + ADB.
+All 13 steps: launch → gather → chop → dough → whisk → shape → sauce → 7 toppings → oven → cut → name → present → serve.
+
+Topping highlight: mushroom (spread position confirmed 2026-06-24).
+Shape navigation: 1× arrow_right tap → select_shape__star.
+Sauce taps: 2 taps (non-tomato sauce requires double-tap).","165000","Suite 3 — Star base | Chocolate sauce | All 7 Toppings","","2026-06-25","passed","2026-06-25","","Suite 3 — Full Matrix","",""
+"","111999","Pizza — star base | tomato sauce","","2026-06-23","passed","2026-06-23","","Bobo's Kitchen Combo Tests","",""
